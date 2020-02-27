@@ -12,10 +12,11 @@
         "allowSyntheticDefaultImports": true,
         "sourceMap": true,
         "baseUrl": ".",
-        "types": ["webpack-env"],
+        "typeRoots": ["./node_modules/@types", "./node_modules/vuetify/types"],
+        "types": ["webpack-env", "vuetify"],
         "paths": {
             "@src/*": ["src/core/*"],
-            "@assets/*": ["src/core/assets/*"],
+            "@assets/*": ["public/assets/*"],
             "@/*": ["src/*"]
         },
         "lib": ["esnext", "dom", "dom.iterable", "scripthost"]

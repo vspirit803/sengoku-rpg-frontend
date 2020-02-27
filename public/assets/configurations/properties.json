@@ -1,0 +1,44 @@
+{
+    "atk": {
+        "format": "interger",
+        "text": "攻击力",
+        "icon": "mdi-sword",
+        "color": "red"
+    },
+    "critRate": {
+        "format": "percent",
+        "text": "暴击率",
+        "icon": "mdi-sword-cross",
+        "color": "red"
+    },
+    "critMultiply": {
+        "format": "percent",
+        "text": "暴击伤害",
+        "icon": "mdi-sword-cross",
+        "color": "red"
+    },
+    "def": {
+        "format": "interger",
+        "text": "防御力",
+        "icon": "mdi-shield",
+        "color": "blue"
+    },
+    "missRate": {
+        "format": "percent",
+        "text": "闪避率",
+        "icon": "mdi-run-fast",
+        "color": "blue"
+    },
+    "hp": {
+        "format": "interger",
+        "text": "生命值",
+        "icon": "mdi-heart",
+        "color": "blue"
+    },
+    "speed": {
+        "format": "interger",
+        "text": "速度",
+        "icon": "mdi-shoe-formal",
+        "color": "blue"
+    }
+}

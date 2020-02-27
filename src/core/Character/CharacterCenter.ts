@@ -3,7 +3,7 @@ import { CharacterConfiguration } from './CharacterConfiguration';
 import { CharacterSave } from './CharacterSave';
 import { Game, SaveInterface } from '@src/Game';
 
-import commonEquipmentSlotsConfiguration from '@assets/configurations/commonEquipmentSlotsConfiguration.json';
+import commonEquipmentSlotsConfiguration from '@assets/data/commonEquipmentSlotsConfiguration.json';
 
 /**
  * 角色中心

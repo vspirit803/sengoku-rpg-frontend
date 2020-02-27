@@ -18,6 +18,21 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
     },
+    {
+        path: '/illustration',
+        name: 'Illustration',
+        component: () => import(/* webpackChunkName: "about" */ '../views/Illustration.vue'),
+    },
+    {
+        path: '/battle-select',
+        name: 'battle-select',
+        component: () => import(/* webpackChunkName: "about" */ '../views/BattleSelect.vue'),
+    },
+    {
+        path: '/backpack',
+        name: 'backpack',
+        component: () => import(/* webpackChunkName: "about" */ '../views/Backpack.vue'),
+    },
 ];
 
 const router = new VueRouter({

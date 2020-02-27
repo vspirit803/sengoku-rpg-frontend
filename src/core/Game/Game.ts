@@ -5,12 +5,12 @@ import { CharacterCenter } from '@src/Character';
 import { BattleCenter } from '@src/Battle';
 import { MapCenter } from '@src/Map';
 
-import characters from '@assets/configurations/characters.json';
-import battles from '@assets/configurations/battles.json';
-import equipments from '@assets/configurations/items/equipments.json';
-import maps from '@assets/configurations/maps.json';
-import cities from '@assets/configurations/cities.json';
-import provinces from '@assets/configurations/provinces.json';
+import characters from '@assets/data/characters.json';
+import battles from '@assets/data/battles.json';
+import equipments from '@assets/data/items/equipments.json';
+import maps from '@assets/data/maps.json';
+import cities from '@assets/data/cities.json';
+import provinces from '@assets/data/provinces.json';
 
 /**
  * 游戏的实例
