@@ -1,29 +1,29 @@
 import { TeamConfiguration } from './TeamConfiguration';
-import { CharacterNormal } from '../Character/CharacterNormal';
+import { CharacterNormal } from '@src/Character';
 import { Game } from '@src/Game';
+import { UUID } from '@src/Common';
 
 /**
  * 队伍(平常状态)
  */
-export class TeamNormal {
+export class TeamNormal implements UUID {
     /**队伍名称 */
     name: string;
-    // /**队伍id */
-    // id: string;
+    /**队伍id */
+    uuid: symbol;
     /**队伍成员 */
     members: Array<CharacterNormal>;
-    // /**队伍成员Id */
-    constructor(members: Array<CharacterNormal>, game: Game);
-    constructor(teamConfiguration: TeamConfiguration, game: Game);
-    constructor(teamConfiguration: TeamConfiguration | Array<CharacterNormal>, game: Game) {
-        if ('length' in teamConfiguration) {
+    constructor(data: Array<CharacterNormal>, game: Game);
+    constructor(data: TeamConfiguration, game: Game);
+    constructor(data: TeamConfiguration | Array<CharacterNormal>, game: Game) {
+        this.uuid = Symbol('TeamNormal');
+        if (Array.isArray(data)) {
             this.name = '玩家队伍';
-            this.members = teamConfiguration;
+            this.members = data;
             return;
         }
-        this.name = teamConfiguration.name;
-        // this.id = teamConfiguration.id;
-        this.members = teamConfiguration.members.map((eachMember) => {
+        this.name = data.name;
+        this.members = data.members.map((eachMember) => {
             let character;
             if ('properties' in eachMember) {
                 //配置
