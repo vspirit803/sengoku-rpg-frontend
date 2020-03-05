@@ -105,8 +105,8 @@ export class CharacterCenter implements SaveInterface<Array<CharacterSave>> {
             throw Error(`id为[${id}]的角色配置不存在`);
         }
         const character = new CharacterNormal({
-            ...characterConfiguration,
             equipmentSlots: commonEquipmentSlotsConfiguration,
+            ...characterConfiguration,
         });
         this.addCharacter(character);
         return character;
