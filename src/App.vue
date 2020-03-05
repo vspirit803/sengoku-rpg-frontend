@@ -26,6 +26,7 @@
             <v-btn to="/illustration">图鉴</v-btn>
             <v-btn to="/battle-select">战斗选择</v-btn>
             <v-btn to="/backpack">物品栏</v-btn>
+            <v-btn to="/teams">编队</v-btn>
             <v-btn icon>
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
@@ -42,7 +43,9 @@
             </v-btn>
         </v-app-bar>
         <v-content>
-            <router-view></router-view>
+            <v-responsive class="content" :aspect-ratio="16 / 9" max-width="1600">
+                <keep-alive> <router-view></router-view></keep-alive>
+            </v-responsive>
         </v-content>
     </v-app>
 </template>
@@ -69,3 +72,8 @@ export default createComponent({
     },
 });
 </script>
+<style scoped>
+.content {
+    border-style: dashed;
+}
+</style>

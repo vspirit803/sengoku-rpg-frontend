@@ -7,9 +7,9 @@
         <v-hover v-slot:default="{ hover }" :close-delay="80">
             <v-img :aspect-ratio="3 / 4" :src="image">
                 <v-fade-transition>
-                    <div v-if="!hover" class="character-name transition-slow-in-fast-out">
-                        <h1>{{ character.name }}</h1>
-                    </div>
+                    <h1 v-if="!hover" class="character-name transition-slow-in-fast-out">
+                        {{ character.name }}
+                    </h1>
                 </v-fade-transition>
                 <v-expand-transition>
                     <div v-if="hover" class="property-panel transition-fast-in-fast-out grey white--text">
@@ -37,8 +37,8 @@
                         </div>
                     </div>
                 </v-expand-transition>
-            </v-img></v-hover
-        >
+            </v-img>
+        </v-hover>
     </div>
 </template>
 <script lang="ts">

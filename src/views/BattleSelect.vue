@@ -2,7 +2,6 @@
     <div class="battle-select">
         <v-autocomplete
             :items="battles"
-            :filter="customFilter"
             label="选择战斗"
             item-value="id"
             item-text="name"
@@ -10,6 +9,34 @@
             style="width: 200px"
             :allow-overflow="false"
         ></v-autocomplete>
+        <!-- <v-autocomplete
+            :items="teams"
+            label="选择队伍"
+            item-value="name"
+            item-text="name"
+            v-model="team"
+            style="width: 200px"
+            :allow-overflow="false"
+        ></v-autocomplete> -->
+        <v-item-group v-model="team" mandatory>
+            <v-container>
+                <v-row>
+                    <v-col v-for="each of teams" :key="each.uuid" cols="12" md="2">
+                        <v-item v-slot:default="{ active, toggle }" :value="each.instence">
+                            <v-card
+                                :color="active ? 'primary' : ''"
+                                class="d-flex align-center"
+                                dark
+                                height="200"
+                                @click="toggle"
+                            >
+                                <h1>{{ each.name }}</h1>
+                            </v-card>
+                        </v-item>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-item-group>
         <v-btn @click="startBattle">开始战斗</v-btn>
         <v-snackbar v-model="showSnackbar" :top="true">
             {{ snackbarText }}
@@ -21,34 +48,46 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, ref } from '@vue/composition-api';
+import { createComponent, inject, ref, Ref } from '@vue/composition-api';
 import { Game } from '@src/Game';
 import { EventData, SubscriberFactory, TriggerTiming } from '@src/EventCenter';
 import { ItemSystem } from '@src/Item';
 import { Rarity } from '@src/Common';
+import { TeamNormal } from '@src/Team';
 
 export default createComponent({
     name: 'BattleSelect',
     setup() {
         const battleId = ref('');
+        const team: Ref<undefined | TeamNormal> = ref();
         const showSnackbar = ref(false);
         const snackbarText = ref('');
         if (!inject('game')) {
             throw new Error('没有获取到Game实例');
         }
         const game = inject('game') as Game;
-        const battles = game.battleCenter.battles;
-        function customFilter(item: { name: string }, queryText: string) {
-            const name = item.name;
-            return name.indexOf(queryText) > -1;
-        }
+        const battles = game.battleCenter.battles.map((each) => {
+            const { id, name } = each;
+            return {
+                id,
+                name,
+            };
+        });
+        const teams = game.teamCenter.teams.map((each) => {
+            return {
+                name: each.name,
+                uuid: each.uuid,
+                instence: Object.seal(each),
+            };
+        });
         function startBattle() {
             if (!battleId.value) {
                 snackbarText.value = '请选择战斗';
                 showSnackbar.value = true;
                 return;
             }
-            const battle = game.battleCenter.generateBattle(battleId.value);
+            // const team = game.teamCenter.teams[0];
+            const battle = game.battleCenter.generateBattle(battleId.value, team.value);
             battle.eventCenter.addSubscriber(
                 SubscriberFactory.Subscriber(
                     TriggerTiming.BattleStart,
@@ -97,7 +136,7 @@ export default createComponent({
                 console.timeEnd('战斗');
             });
         }
-        return { battles, customFilter, battleId, startBattle, showSnackbar, snackbarText };
+        return { battles, team, teams, battleId, startBattle, showSnackbar, snackbarText };
     },
 });
 </script>

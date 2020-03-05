@@ -33,6 +33,11 @@ const routes = [
         name: 'backpack',
         component: () => import(/* webpackChunkName: "about" */ '../views/Backpack.vue'),
     },
+    {
+        path: '/teams',
+        name: 'teams',
+        component: () => import(/* webpackChunkName: "about" */ '../views/Teams.vue'),
+    },
 ];
 
 const router = new VueRouter({
