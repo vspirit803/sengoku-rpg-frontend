@@ -1,10 +1,11 @@
+const resolve = (dir) => require('path').resolve(__dirname, dir);
 module.exports = {
     configureWebpack: {
         resolve: {
             alias: {
-                '@': 'D:\\projects\\sengoku-fe\\src',
-                '@src': 'D:\\projects\\sengoku-fe\\src\\core',
-                '@assets': 'D:\\projects\\sengoku-fe\\public\\assets',
+                '@': resolve('src'),
+                '@src': resolve('src/core'),
+                '@assets': resolve('public/assets'),
             },
         },
     },
