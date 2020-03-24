@@ -1,33 +1,36 @@
 <template>
     <div class="battle-select">
-        <v-autocomplete
-            :items="battles"
-            label="选择战斗"
-            item-value="id"
-            item-text="name"
-            v-model="battleId"
-            style="width: 200px"
-            :allow-overflow="false"
-        ></v-autocomplete>
-        <!-- <v-autocomplete
-            :items="teams"
-            label="选择队伍"
-            item-value="name"
-            item-text="name"
-            v-model="team"
-            style="width: 200px"
-            :allow-overflow="false"
-        ></v-autocomplete> -->
+        <v-banner single-line>选择战役</v-banner>
+        <v-item-group v-model="battleId" mandatory>
+            <v-container>
+                <v-row>
+                    <v-col v-for="each of battles" :key="each.id" cols="12" md="4">
+                        <v-item v-slot:default="{ active, toggle }" :value="each.id">
+                            <v-card
+                                :color="active ? 'primary' : ''"
+                                class="d-flex align-center"
+                                dark
+                                height="100"
+                                @click="toggle"
+                            >
+                                <h1>{{ each.name }}</h1>
+                            </v-card>
+                        </v-item>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-item-group>
+        <v-banner single-line>选择参战队伍</v-banner>
         <v-item-group v-model="team" mandatory>
             <v-container>
                 <v-row>
-                    <v-col v-for="each of teams" :key="each.uuid" cols="12" md="2">
+                    <v-col v-for="each of teams" :key="each.uuid" cols="12" md="3">
                         <v-item v-slot:default="{ active, toggle }" :value="each.instence">
                             <v-card
                                 :color="active ? 'primary' : ''"
                                 class="d-flex align-center"
                                 dark
-                                height="200"
+                                height="100"
                                 @click="toggle"
                             >
                                 <h1>{{ each.name }}</h1>
