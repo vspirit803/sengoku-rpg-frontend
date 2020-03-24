@@ -61,7 +61,7 @@ type Data = { team: TeamNormal };
 
 export default createComponent({
     name: 'Team',
-    props: { team: Object },
+    props: { team: TeamNormal },
     setup(props: Data) {
         if (!inject('game')) {
             throw new Error('没有获取到Game实例');
