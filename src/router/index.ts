@@ -35,6 +35,12 @@ const routes = [
         name: 'teams',
         component: () => import(/* webpackChunkName: "views" */ '../views/Teams.vue'),
     },
+    {
+        path: '/battle',
+        name: 'battle',
+        component: () => import(/* webpackChunkName: "battle" */ '../views/Battle.vue'),
+        props: true,
+    },
 ];
 
 const router = new VueRouter({
