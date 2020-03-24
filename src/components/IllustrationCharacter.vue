@@ -5,7 +5,7 @@
     </div>
     <div v-else class="illustration-character">
         <v-hover v-slot:default="{ hover }" :close-delay="80">
-            <v-img :aspect-ratio="3 / 4" :src="image">
+            <v-img :aspect-ratio="3 / 4" :src="imageUrl" lazy-src="assets/images/C9999.png">
                 <v-fade-transition>
                     <h1 v-if="!hover" class="character-name transition-slow-in-fast-out">
                         {{ character.name }}
@@ -42,7 +42,7 @@
     </div>
 </template>
 <script lang="ts">
-import { createComponent, computed } from '@vue/composition-api';
+import { createComponent } from '@vue/composition-api';
 import { CharacterConfiguration } from '@src/Character';
 import propertiesName from '@assets/configurations/properties.json';
 
@@ -57,13 +57,7 @@ export default createComponent({
     props: { character: Object },
     setup(props: Data) {
         const character = props.character;
-        const image = computed(() => {
-            try {
-                return require('@assets/images/' + character.id + '.png');
-            } catch (error) {
-                return require('@assets/images/' + 'C9999' + '.png');
-            }
-        });
+        const imageUrl = 'assets/images/' + character.id + '.png';
 
         function getPropertyBaseValue(property: Property): string {
             const value = character.properties[property].baseValue;
@@ -77,7 +71,7 @@ export default createComponent({
         }
         return {
             getPropertyBaseValue,
-            image,
+            imageUrl,
             getPropertyName(property: Property): string {
                 return propertiesName[property].text;
             },

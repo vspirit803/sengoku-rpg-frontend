@@ -2,7 +2,7 @@
     <div class="members-container">
         <template v-for="index of 5">
             <div v-if="index <= members.length" :key="members[index - 1].uuid" class="team-character">
-                <v-img :aspect-ratio="3 / 4" :src="getImage(members[index - 1].id)">
+                <v-img :aspect-ratio="3 / 4" :src="getImage(members[index - 1].id)" lazy-src="assets/images/C9999.png">
                     <v-btn @click="(selectedCharacterId = members[index - 1].id), (showAddMemberDialog = true)">
                         替换
                     </v-btn>
@@ -91,11 +91,7 @@ export default createComponent({
         const addCharacterId: Ref<undefined | string> = ref();
 
         function getImage(id: string) {
-            try {
-                return require('@assets/images/' + id + '.png');
-            } catch (error) {
-                return require('@assets/images/' + 'C9999' + '.png');
-            }
+            return 'assets/images/' + id + '.png';
         }
 
         function removeMember(character: TeamCharacter) {
