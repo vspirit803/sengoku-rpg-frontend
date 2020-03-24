@@ -5,13 +5,12 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, ref, Ref, onMounted, onUpdated, onActivated } from '@vue/composition-api';
+import { createComponent, inject, ref, Ref, onActivated } from '@vue/composition-api';
 import { Game } from '@src/Game';
 import { EventData, SubscriberFactory, TriggerTiming } from '@src/EventCenter';
-import { ItemSystem } from '@src/Item';
-import { Rarity } from '@src/Common';
-import { TeamNormal } from '@src/Team';
-import { BattleBattle } from '../core/Battle';
+import { TeamBattle } from '@src/Team';
+import { BattleBattle } from '@src/Battle';
+import router from '../router';
 
 export default createComponent({
     name: 'Battle',
@@ -28,7 +27,6 @@ export default createComponent({
         onActivated(() => {
             const team = game.teamCenter.teams.find((each) => each.name === props.teamName)!;
             battle.value = Object.seal(game.battleCenter.generateBattle(props.battleId, team));
-            // const battle = game.battleCenter.generateBattle(props.battleId, team);
             battle.value.eventCenter.addSubscriber(
                 SubscriberFactory.Subscriber(
                     TriggerTiming.BattleStart,
@@ -64,6 +62,7 @@ export default createComponent({
 
             console.time('战斗');
             battle.value.start().then(() => {
+                router.back();
                 // const equipmentsConfiguration = game.backpack.equipmentCenter.equipmentsConfiguration;
                 // const equipmentConfiguration =
                 //     equipmentsConfiguration[Math.floor(Math.random() * equipmentsConfiguration.length)];
