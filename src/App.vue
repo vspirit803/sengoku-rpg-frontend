@@ -44,7 +44,7 @@
         </v-app-bar>
         <v-content>
             <v-responsive class="content" :aspect-ratio="16 / 9" max-width="1600">
-                <keep-alive> <router-view></router-view></keep-alive>
+                <keep-alive exclude="Battle"> <router-view></router-view></keep-alive>
             </v-responsive>
         </v-content>
     </v-app>
@@ -75,5 +75,6 @@ export default createComponent({
 <style scoped>
 .content {
     border-style: dashed;
+    margin: auto;
 }
 </style>
