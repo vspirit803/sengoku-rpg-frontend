@@ -43,7 +43,7 @@
             </v-btn>
         </v-app-bar>
         <v-content>
-            <v-responsive class="content" :aspect-ratio="16 / 9" max-width="1600">
+            <v-responsive class="content" :aspect-ratio="16 / 9">
                 <keep-alive exclude="Battle"> <router-view></router-view></keep-alive>
             </v-responsive>
         </v-content>
@@ -76,5 +76,7 @@ export default createComponent({
 .content {
     border-style: dashed;
     margin: auto;
+    max-height: calc(100vh - 64px);
+    max-width: calc((100vh - 64px) / 9 * 16);
 }
 </style>
