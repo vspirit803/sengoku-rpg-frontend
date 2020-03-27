@@ -67,6 +67,7 @@ export default createComponent({
             throw new Error('没有获取到Game实例');
         }
         const game = inject('game') as Game;
+        const autoSave = inject('autoSave') as Function;
         const team = props.team;
         type TeamCharacter = { uuid: symbol; id: string; name: string };
         const members: Ref<Array<TeamCharacter>> = ref(
@@ -151,6 +152,7 @@ export default createComponent({
                     addMember(memberAfter);
                 }
             }
+            autoSave();
 
             showAddMemberDialog.value = false;
             addCharacterId.value = undefined;

@@ -53,7 +53,7 @@
 <script lang="ts">
 import { createComponent } from '@vue/composition-api';
 import { provide } from '@vue/composition-api';
-import { Game } from '@src/Game';
+import { Game, GameSave } from '@src/Game';
 import save001 from '@assets/saves/sav001.json';
 
 console.time('载入游戏配置');
@@ -61,14 +61,28 @@ const game = new Game();
 console.timeEnd('载入游戏配置');
 
 console.time('载入游戏存档');
-game.loadSave(save001);
+const localSave = localStorage.getItem('save001');
+if (localSave) {
+    const save = JSON.parse(localSave) as GameSave;
+    game.loadSave(save);
+    console.log('从localStorage读取存档');
+} else {
+    game.loadSave(save001);
+    console.log('读取预设存档');
+}
 console.timeEnd('载入游戏存档');
+function autoSave() {
+    const saveString = JSON.stringify(game.generateSave());
+    localStorage.setItem('save001', saveString);
+}
+
 export default createComponent({
     name: 'App',
     setup() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).game = game;
         provide('game', game);
+        provide('autoSave', autoSave);
     },
 });
 </script>

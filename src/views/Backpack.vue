@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, ref, computed } from '@vue/composition-api';
+import { createComponent, inject, ref, Ref, computed, onActivated } from '@vue/composition-api';
 import { Game } from '@src/Game';
 import { ItemType, ItemBase, ItemSystem, ItemEquipment } from '@src/Item';
 import Item from '@/components/Item.vue';
@@ -47,9 +47,7 @@ export default createComponent({
         }
         const game = inject('game') as Game;
         const currTab = ref('system');
-        const allItems = computed(() => {
-            return game.backpack.items;
-        });
+        const allItems: Ref<Array<ItemBase>> = ref([]);
         const systemItems = computed(() => {
             return allItems.value.filter((each) => each.type === ItemType.System) as Array<ItemSystem>;
         });
@@ -65,6 +63,12 @@ export default createComponent({
                 return equipments;
             }
             return [];
+        });
+
+        onActivated(() => {
+            allItems.value = game.backpack.items.map((each) => {
+                return { ...each };
+            });
         });
 
         return {

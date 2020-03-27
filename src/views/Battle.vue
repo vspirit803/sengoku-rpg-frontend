@@ -30,6 +30,8 @@
 import { createComponent, inject, ref, Ref, onBeforeMount } from '@vue/composition-api';
 import { Game } from '@src/Game';
 import { EventData, SubscriberFactory, TriggerTiming } from '@src/EventCenter';
+import { ItemSystem } from '@src/Item';
+import { Rarity } from '@src/Common';
 import { TeamBattle } from '@src/Team';
 import { BattleBattle } from '@src/Battle';
 import BattleFaction from '@/components/BattleFaction.vue';
@@ -47,6 +49,7 @@ export default createComponent({
             throw new Error('没有获取到Game实例');
         }
         const game = inject('game') as Game;
+        const autoSave = inject('autoSave') as Function;
         const battle: Ref<BattleBattle> = ref(undefined);
         const showDialog = ref(false);
         onBeforeMount(() => {
@@ -92,7 +95,7 @@ export default createComponent({
                         return new Promise((resolve, reject) => {
                             setTimeout(() => {
                                 resolve(true);
-                            }, 500);
+                            }, 200);
                         });
                     },
                     undefined,
@@ -101,17 +104,19 @@ export default createComponent({
             );
 
             console.time('战斗');
-            // battle.value.start().then(() => {
-            //     // router.back();
-            //     // const equipmentsConfiguration = game.backpack.equipmentCenter.equipmentsConfiguration;
-            //     // const equipmentConfiguration =
-            //     //     equipmentsConfiguration[Math.floor(Math.random() * equipmentsConfiguration.length)];
-            //     // const equipment = game.backpack.equipmentCenter.generateEquipment(equipmentConfiguration);
-            //     // game.backpack.equipmentCenter.addEquipment(equipment);
-            //     // game.backpack.addItem(new ItemSystem({ id: 'money', name: '金钱', count: 20, rarity: Rarity.Immortal }));
-            //     console.timeEnd('战斗');
-            //     showDialog.value = true;
-            // });
+            battle.value.start().then(() => {
+                const equipmentsConfiguration = game.backpack.equipmentCenter.equipmentsConfiguration;
+                const equipmentConfiguration =
+                    equipmentsConfiguration[Math.floor(Math.random() * equipmentsConfiguration.length)];
+                const equipment = game.backpack.equipmentCenter.generateEquipment(equipmentConfiguration);
+                game.backpack.equipmentCenter.addEquipment(equipment);
+                game.backpack.addItem(
+                    new ItemSystem({ id: 'money', name: '金钱', count: 20, rarity: Rarity.Immortal }),
+                );
+                console.timeEnd('战斗');
+                autoSave();
+                showDialog.value = true;
+            });
         });
         function confirm() {
             showDialog.value = false;
