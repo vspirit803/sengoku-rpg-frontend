@@ -1,13 +1,26 @@
 <template>
-    <div class="battle-character" :class="{ 'grey--text': !character.isAlive }">
+    <v-card class="battle-character my-2 mx-2" :class="{ 'grey--text': !character.isAlive }">
+        <v-avatar size="80" tile>
+            <v-img :aspect-ratio="3 / 4" :src="imageUrl">
+                <template v-slot:placeholder>
+                    <v-img :aspect-ratio="3 / 4" src="assets/images/C9999.png"></v-img>
+                </template>
+            </v-img>
+        </v-avatar>
         <span v-text="character.name"></span>
-        <v-img :aspect-ratio="3 / 4" :src="imageUrl" lazy-src="assets/images/C9999.png"></v-img>
-        <v-progress-linear :value="(currHp / hpMax) * 100" :buffer-value="oldVal" color="red" height="25" reactive>
+        <v-progress-linear
+            class="grey"
+            :value="(currHp / hpMax) * 100"
+            :buffer-value="oldVal"
+            color="red"
+            height="25"
+            reactive
+        >
             <template>
                 <strong>{{ currHp }}/{{ hpMax }}</strong>
             </template>
         </v-progress-linear>
-    </div>
+    </v-card>
 </template>
 
 <script lang="ts">
@@ -40,7 +53,6 @@ export default createComponent({
                     oldVal.value = (currHp.value / hpMax) * 100;
                     currHp.value = data.target.currHp;
                     setTimeout(() => {
-                        // console.log(`oldVal:${oldVal.value}-->${currHp.value / hpMax}`);
                         oldVal.value = (currHp.value / hpMax) * 100;
                     }, 200);
                     return true;

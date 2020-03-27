@@ -1,6 +1,8 @@
 <template>
     <div class="battle">
-        <span>{{ battle.name }}</span>
+        <v-row class="battle-title" align="center" justify="center">
+            <h2>{{ battle.name }}</h2>
+        </v-row>
         <div class="battle-factions">
             <BattleFaction v-for="each of battle.factions" :key="each.uuid" :faction="each" />
         </div>
@@ -99,17 +101,17 @@ export default createComponent({
             );
 
             console.time('战斗');
-            battle.value.start().then(() => {
-                // router.back();
-                // const equipmentsConfiguration = game.backpack.equipmentCenter.equipmentsConfiguration;
-                // const equipmentConfiguration =
-                //     equipmentsConfiguration[Math.floor(Math.random() * equipmentsConfiguration.length)];
-                // const equipment = game.backpack.equipmentCenter.generateEquipment(equipmentConfiguration);
-                // game.backpack.equipmentCenter.addEquipment(equipment);
-                // game.backpack.addItem(new ItemSystem({ id: 'money', name: '金钱', count: 20, rarity: Rarity.Immortal }));
-                console.timeEnd('战斗');
-                showDialog.value = true;
-            });
+            // battle.value.start().then(() => {
+            //     // router.back();
+            //     // const equipmentsConfiguration = game.backpack.equipmentCenter.equipmentsConfiguration;
+            //     // const equipmentConfiguration =
+            //     //     equipmentsConfiguration[Math.floor(Math.random() * equipmentsConfiguration.length)];
+            //     // const equipment = game.backpack.equipmentCenter.generateEquipment(equipmentConfiguration);
+            //     // game.backpack.equipmentCenter.addEquipment(equipment);
+            //     // game.backpack.addItem(new ItemSystem({ id: 'money', name: '金钱', count: 20, rarity: Rarity.Immortal }));
+            //     console.timeEnd('战斗');
+            //     showDialog.value = true;
+            // });
         });
         function confirm() {
             showDialog.value = false;
@@ -124,9 +126,15 @@ export default createComponent({
     height: 100%;
     position: relative;
 }
+.battle-title {
+    position: absolute;
+    width: 100%;
+    height: 40px;
+}
 .battle-factions {
     display: flex;
     width: 100%;
+    height: 100%;
     justify-content: space-between;
 }
 </style>

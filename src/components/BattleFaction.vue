@@ -1,6 +1,8 @@
 <template>
     <div class="battle-faction">
-        <div v-text="faction.name"></div>
+        <v-row class="faction-title" align="center" justify="center">
+            <h3 v-text="faction.name"></h3>
+        </v-row>
         <div v-for="eachTeam of faction.teams" :key="eachTeam.uuid" class="battle-team">
             <div v-text="eachTeam.name" class="red--text"></div>
             <BattleCharacter v-for="eachMember of eachTeam.members" :key="eachMember.uuid" :character="eachMember" />
@@ -44,15 +46,23 @@ export default createComponent({
     flex-wrap: wrap;
     justify-content: space-around;
     flex-direction: column;
-    border-style: dotted;
-    width: 150px;
-    min-width: 150px;
+    width: 300px;
     height: 100%;
+    position: relative;
+}
+.faction-title {
+    width: 100%;
+    position: absolute;
+    top: 0;
 }
 .battle-team {
     width: 100%;
-    border-style: dotted;
-    border-color: aqua;
-    border-width: 1px;
+    max-height: 100%;
+    padding: 2px;
+    background-color: beige;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 </style>

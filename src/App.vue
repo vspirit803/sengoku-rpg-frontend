@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <v-app class="app">
         <v-app-bar app color="primary" dark>
             <div class="d-flex align-center">
                 <v-img
@@ -74,9 +74,24 @@ export default createComponent({
 </script>
 <style scoped>
 .content {
-    border-style: dashed;
-    margin: auto;
-    max-height: calc(100vh - 64px);
-    max-width: calc((100vh - 64px) / 9 * 16);
+    padding: 5px;
+}
+/**宽高比大于16/9, 按高度决定 */
+@media screen and (min-aspect-ratio: 16/9) {
+    .content {
+        border-style: dashed;
+        margin: auto;
+        height: calc(100vh - 64px);
+        width: calc((100vh - 64px) / 9 * 16);
+    }
+}
+/**宽高比小于16/9, 按宽度决定 */
+@media screen and (max-aspect-ratio: 16/9) {
+    .content {
+        border-style: dashed;
+        margin: auto;
+        height: calc((100vw - 15px) / 16 * 9);
+        width: calc(100vw - 15px);
+    }
 }
 </style>
