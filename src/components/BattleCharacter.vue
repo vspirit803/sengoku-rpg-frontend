@@ -8,14 +8,7 @@
             </v-img>
         </v-avatar>
         <span v-text="character.name"></span>
-        <v-progress-linear
-            class="grey"
-            :value="(currHp / hpMax) * 100"
-            :buffer-value="oldVal"
-            color="red"
-            height="25"
-            reactive
-        >
+        <v-progress-linear class="grey" :value="currVal" :buffer-value="prevVal" color="red" height="25" reactive>
             <template>
                 <strong>{{ currHp }}/{{ hpMax }}</strong>
             </template>
@@ -24,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, ref, Ref } from '@vue/composition-api';
+import { createComponent, inject, ref, computed } from '@vue/composition-api';
 import { Game } from '@src/Game';
 import { CharacterBattle } from '@src/Character';
 import { TriggerTiming, EventData, SubscriberFactory } from '@src/EventCenter';
@@ -42,18 +35,23 @@ export default createComponent({
             throw new Error('没有获取到Game实例');
         }
         const game = inject('game') as Game;
-        const character = props.character;
-        const hpMax = props.character.properties.hp.battleValue;
+        const { character } = props;
+        const hpMax = character.properties.hp.battleValue;
         const currHp = ref(hpMax);
-        const oldVal = ref(100);
+        const prevHp = ref(hpMax);
+        const currVal = computed(() => {
+            return (currHp.value / hpMax) * 100;
+        });
+        const prevVal = computed(() => {
+            return (prevHp.value / hpMax) * 100;
+        });
         character.battle!.eventCenter.addSubscriber(
             SubscriberFactory.Subscriber(
                 TriggerTiming.Attacked,
-                (source, data) => {
-                    oldVal.value = (currHp.value / hpMax) * 100;
+                (source, data: EventData.EventDataAttacked) => {
                     currHp.value = data.target.currHp;
                     setTimeout(() => {
-                        oldVal.value = (currHp.value / hpMax) * 100;
+                        prevHp.value = currHp.value;
                     }, 200);
                     return true;
                 },
@@ -65,7 +63,8 @@ export default createComponent({
             game,
             hpMax,
             currHp,
-            oldVal,
+            currVal,
+            prevVal,
             imageUrl: 'assets/images/' + character.id + '.png',
         };
     },

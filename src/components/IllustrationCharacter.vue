@@ -1,11 +1,20 @@
 <template>
-    <div v-if="!character.unlocked" class="illustration-character d-flex justify-center align-center">
+    <v-responsive :aspect-ratio="3 / 4" v-if="!character.unlocked" class="illustration-character">
+        <div style="width:100%; height:100%;" class="d-flex justify-center align-center">
+            <v-overlay absolute :value="true"> </v-overlay>
+            <span v-text="name"></span>
+            <v-icon x-large>mdi-lock</v-icon>
+        </div>
+    </v-responsive>
+
+    <!-- <div v-if="!character.unlocked" class="illustration-character d-flex justify-center align-center">
         <v-overlay absolute :value="true"> </v-overlay>
         <v-icon x-large>mdi-lock</v-icon>
-    </div>
+    </div> -->
+
     <div v-else class="illustration-character">
         <v-hover v-slot:default="{ hover }" :close-delay="80">
-            <v-img :aspect-ratio="3 / 4" :src="imageUrl" lazy-src="assets/images/C9999.png">
+            <v-img max-height="100%" :src="imageUrl" lazy-src="assets/images/C9999.png">
                 <v-fade-transition>
                     <h1 v-if="!hover" class="character-name transition-slow-in-fast-out">
                         {{ character.name }}
@@ -72,6 +81,7 @@ export default createComponent({
         return {
             getPropertyBaseValue,
             imageUrl,
+            name: character.name,
             getPropertyName(property: Property): string {
                 return propertiesName[property].text;
             },
@@ -103,8 +113,8 @@ export default createComponent({
 .illustration-character {
     position: relative;
     z-index: 1;
-    height: 403px;
-    width: 303px;
+    /* height: 403px;
+    width: 303px; */
     box-sizing: border-box;
     flex-wrap: wrap;
     border-style: solid;

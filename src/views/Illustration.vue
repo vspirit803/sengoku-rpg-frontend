@@ -4,15 +4,18 @@
             <v-tabs-slider></v-tabs-slider>
             <v-tab :href="`#tab-characters`">人物 {{ characterUnlockRatio }}</v-tab>
             <v-tab :href="`#tab-enemies`">敌人</v-tab>
-            <v-tab-item value="tab-characters">
-                <v-card flat tile class="characters-container">
-                    <IllustrationCharacter
-                        v-for="eachCharacter of characters"
-                        :key="eachCharacter.id"
-                        :character="eachCharacter"
-                    >
-                    </IllustrationCharacter>
-                </v-card>
+            <v-tab-item class="tab-characters" value="tab-characters">
+                <GeminiScrollbar class="my-scroll-bar">
+                    <div flat tile class="characters-container">
+                        <IllustrationCharacter
+                            class="character"
+                            v-for="eachCharacter of characters"
+                            :key="eachCharacter.id"
+                            :character="eachCharacter"
+                        >
+                        </IllustrationCharacter>
+                    </div>
+                </GeminiScrollbar>
             </v-tab-item>
             <v-tab-item value="tab-enemies">
                 <v-card flat tile> </v-card>
@@ -59,12 +62,19 @@ export default createComponent({
 .characters-container {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 .character {
     position: relative;
-    height: 400px;
-    width: 300px;
+    width: calc(100% / 8);
     flex-wrap: wrap;
+    flex-grow: 0;
     border-style: solid;
+}
+.illustration {
+    height: 100%;
+}
+.tab-characters {
+    height: calc(100vh - 64px - 48px);
 }
 </style>
