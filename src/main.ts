@@ -4,11 +4,9 @@ import router from './router';
 import store from './store';
 import VueCompositionApi from '@vue/composition-api';
 import vuetify from './plugins/vuetify';
-import GeminiScrollbar from 'vue-gemini-scrollbar';
 
 Vue.config.productionTip = false;
 Vue.use(VueCompositionApi);
-Vue.use(GeminiScrollbar as any);
 
 new Vue({
     router,
