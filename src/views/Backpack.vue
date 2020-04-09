@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import { createComponent, inject, ref, Ref, computed, onActivated } from '@vue/composition-api';
+import { useGame } from '@/use/useGame';
 import { Game } from '@src/Game';
 import { ItemType, ItemBase, ItemSystem, ItemEquipment } from '@src/Item';
 import Item from '@/components/Item.vue';
@@ -42,10 +43,7 @@ export default createComponent({
     name: 'Backpack',
     components: { Item },
     setup() {
-        if (!inject('game')) {
-            throw new Error('没有获取到Game实例');
-        }
-        const game = inject('game') as Game;
+        const game = useGame();
         const currTab = ref('system');
         const allItems: Ref<Array<ItemBase>> = ref([]);
         const systemItems = computed(() => {

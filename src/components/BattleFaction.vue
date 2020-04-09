@@ -12,6 +12,7 @@
 
 <script lang="ts">
 import { createComponent, inject, ref, Ref } from '@vue/composition-api';
+import { useGame } from '@/use/useGame';
 import { Game } from '@src/Game';
 import { TeamNormal } from '@src/Team';
 import { FactionBattle } from '@src/Faction';
@@ -27,10 +28,7 @@ export default createComponent({
     components: { BattleCharacter },
     props: { faction: Object },
     setup(props: Data) {
-        if (!inject('game')) {
-            throw new Error('没有获取到Game实例');
-        }
-        const game = inject('game') as Game;
+        const game = useGame();
 
         return {
             game,

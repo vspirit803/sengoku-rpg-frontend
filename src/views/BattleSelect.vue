@@ -52,6 +52,7 @@
 
 <script lang="ts">
 import { createComponent, inject, ref, Ref } from '@vue/composition-api';
+import { useGame } from '@/use/useGame';
 import { Game } from '@src/Game';
 import { EventData, SubscriberFactory, TriggerTiming } from '@src/EventCenter';
 import { ItemSystem } from '@src/Item';
@@ -62,14 +63,11 @@ import router from '../router';
 export default createComponent({
     name: 'BattleSelect',
     setup() {
+        const game = useGame();
         const battleId = ref('');
         const team: Ref<undefined | TeamNormal> = ref();
         const showSnackbar = ref(false);
         const snackbarText = ref('');
-        if (!inject('game')) {
-            throw new Error('没有获取到Game实例');
-        }
-        const game = inject('game') as Game;
         const battles = game.battleCenter.battles.map((each) => {
             const { id, name } = each;
             return {

@@ -53,6 +53,7 @@
 
 <script lang="ts">
 import { createComponent, inject, ref, Ref } from '@vue/composition-api';
+import { useGame } from '@/use/useGame';
 import { Game } from '@src/Game';
 import { TeamNormal } from '@src/Team';
 import { CharacterNormal } from '@src/Character';
@@ -63,10 +64,7 @@ export default createComponent({
     name: 'Team',
     props: { team: TeamNormal },
     setup(props: Data) {
-        if (!inject('game')) {
-            throw new Error('没有获取到Game实例');
-        }
-        const game = inject('game') as Game;
+        const game = useGame();
         const autoSave = inject('autoSave') as Function;
         const team = props.team;
         type TeamCharacter = { uuid: symbol; id: string; name: string };

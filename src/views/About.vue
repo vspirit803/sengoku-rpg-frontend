@@ -6,16 +6,14 @@
 </template>
 <script lang="ts">
 import { createComponent, inject } from '@vue/composition-api';
+import { useGame } from '@/use/useGame';
 import { Game } from '@src/Game';
 
 export default createComponent({
     name: 'About',
     props: {},
     setup() {
-        if (!inject('game')) {
-            throw new Error('没有获取到Game实例');
-        }
-        const game = inject('game') as Game;
+        const game = useGame();
         const version = game.generateSave().version;
         return {
             version,

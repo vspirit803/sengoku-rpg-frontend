@@ -55,6 +55,7 @@ import { createComponent } from '@vue/composition-api';
 import { provide } from '@vue/composition-api';
 import { Game, GameSave } from '@src/Game';
 import save001 from '@assets/saves/sav001.json';
+import { provideGame } from '@/use/useGame';
 
 console.time('载入游戏配置');
 const game = new Game();
@@ -81,7 +82,8 @@ export default createComponent({
     setup() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).game = game;
-        provide('game', game);
+        provideGame(game);
+        // provide('game', game);
         provide('autoSave', autoSave);
     },
 });

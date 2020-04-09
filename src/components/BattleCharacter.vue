@@ -17,10 +17,10 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, ref, computed } from '@vue/composition-api';
-import { Game } from '@src/Game';
+import { createComponent, ref, computed } from '@vue/composition-api';
 import { CharacterBattle } from '@src/Character';
 import { TriggerTiming, EventData, SubscriberFactory } from '@src/EventCenter';
+import { useGame } from '@/use/useGame';
 
 type Data = { character: CharacterBattle };
 
@@ -31,10 +31,7 @@ export default createComponent({
     name: 'BattleCharacter',
     props: { character: Object },
     setup(props: Data) {
-        if (!inject('game')) {
-            throw new Error('没有获取到Game实例');
-        }
-        const game = inject('game') as Game;
+        const game = useGame();
         const { character } = props;
         const hpMax = character.properties.hp.battleValue;
         const currHp = ref(hpMax);

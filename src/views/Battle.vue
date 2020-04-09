@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import { createComponent, inject, ref, Ref, onBeforeMount } from '@vue/composition-api';
+import { useGame } from '@/use/useGame';
 import { Game } from '@src/Game';
 import { EventData, SubscriberFactory, TriggerTiming } from '@src/EventCenter';
 import { ItemSystem } from '@src/Item';
@@ -45,10 +46,7 @@ export default createComponent({
         teamName: String,
     },
     setup(props: { battleId: string; teamName: string }) {
-        if (!inject('game')) {
-            throw new Error('没有获取到Game实例');
-        }
-        const game = inject('game') as Game;
+        const game = useGame();
         const autoSave = inject('autoSave') as Function;
         const battle: Ref<BattleBattle> = ref(undefined);
         const showDialog = ref(false);

@@ -27,18 +27,15 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, ref } from '@vue/composition-api';
-import { Game } from '@src/Game';
+import { createComponent, ref } from '@vue/composition-api';
 import IllustrationCharacter from '@/components/IllustrationCharacter.vue';
 import vueCustomScrollbar from 'vue-custom-scrollbar';
+import { useGame } from '@/use/useGame';
 export default createComponent({
     name: 'Illustration',
     components: { IllustrationCharacter, vueCustomScrollbar },
     setup() {
-        if (!inject('game')) {
-            throw new Error('没有获取到Game实例');
-        }
-        const game = inject('game') as Game;
+        const game = useGame();
         const allCharacters = game.characterCenter.charactersConfiguration.filter((eachCharacter) =>
             eachCharacter.id.startsWith('C'),
         );
