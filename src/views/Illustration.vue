@@ -4,9 +4,11 @@
             <v-tabs-slider></v-tabs-slider>
             <v-tab :href="`#tab-characters`">人物 {{ characterUnlockRatio }}</v-tab>
             <v-tab :href="`#tab-enemies`">敌人</v-tab>
+            <v-tab :href="`#tab-equipments`">装备</v-tab>
+            <v-tab :href="`#tab-events`">事件</v-tab>
         </v-tabs>
         <v-tabs-items v-model="currTab">
-            <v-tab-item class="tab-characters" value="tab-characters">
+            <v-tab-item class="tab-content tab-characters" value="tab-characters">
                 <vue-custom-scrollbar class="my-scroll-bar">
                     <div flat tile class="characters-container">
                         <IllustrationCharacter
@@ -19,8 +21,14 @@
                     </div>
                 </vue-custom-scrollbar>
             </v-tab-item>
-            <v-tab-item class="tab-enemies" value="tab-enemies">
-                <v-card flat tile>啦啦啦啦啦 </v-card>
+            <v-tab-item class="tab-content tab-enemies" value="tab-enemies">
+                <v-card flat tile>敌人图鉴 </v-card>
+            </v-tab-item>
+            <v-tab-item class="tab-content tab-equipments" value="tab-equipments">
+                <v-card flat tile>装备图鉴 </v-card>
+            </v-tab-item>
+            <v-tab-item class="tab-content tab-events" value="tab-events">
+                <v-card flat tile>事件图鉴 </v-card>
             </v-tab-item>
         </v-tabs-items>
     </div>
@@ -70,7 +78,7 @@ export default createComponent({
 }
 .character {
     position: relative;
-    width: calc(100% / 8);
+    width: calc(100% / 6);
     flex-wrap: wrap;
     flex-grow: 0;
     border-style: solid;
@@ -78,7 +86,7 @@ export default createComponent({
 .illustration {
     height: 100%;
 }
-.tab-characters {
+.tab-content {
     height: calc(100vh - 64px - 48px);
 }
 </style>
