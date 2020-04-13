@@ -13,8 +13,8 @@
 
 <script lang="ts">
 import { createComponent, inject, ref, computed } from '@vue/composition-api';
-import { Game } from '@src/Game';
-import { ItemType, ItemBase, ItemSystem } from '@src/Item';
+import { Game } from 'sengoku-rpg-core';
+import { ItemType, ItemBase, ItemSystem } from 'sengoku-rpg-core';
 
 interface Data {
     item: ItemBase | null;

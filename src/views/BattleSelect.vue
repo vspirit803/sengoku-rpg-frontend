@@ -53,13 +53,12 @@
 <script lang="ts">
 import { createComponent, inject, ref, Ref } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
-import { Game } from '@src/Game';
-import { EventData, SubscriberFactory, TriggerTiming } from '@src/EventCenter';
-import { ItemSystem } from '@src/Item';
-import { Rarity } from '@src/Common';
-import { TeamNormal } from '@src/Team';
+import { Game, CharacterCenter, BattleCenter } from 'sengoku-rpg-core';
+import { EventData, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
+import { ItemSystem } from 'sengoku-rpg-core';
+import { Rarity } from 'sengoku-rpg-core';
+import { TeamNormal } from 'sengoku-rpg-core';
 import router from '../router';
-
 export default createComponent({
     name: 'BattleSelect',
     setup() {

@@ -27,9 +27,9 @@
 <script lang="ts">
 import { createComponent, inject, ref, computed } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
-import { Game } from '@src/Game';
-import { TeamNormal } from '@src/Team';
-import { CharacterNormal } from '@src/Character';
+import { Game } from 'sengoku-rpg-core';
+import { TeamNormal } from 'sengoku-rpg-core';
+import { CharacterNormal } from 'sengoku-rpg-core';
 import Team from '@/components/Team.vue';
 
 export default createComponent({

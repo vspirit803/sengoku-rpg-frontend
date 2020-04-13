@@ -29,12 +29,12 @@
 <script lang="ts">
 import { createComponent, inject, ref, Ref, onBeforeMount } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
-import { Game } from '@src/Game';
-import { EventData, SubscriberFactory, TriggerTiming } from '@src/EventCenter';
-import { ItemSystem } from '@src/Item';
-import { Rarity } from '@src/Common';
-import { TeamBattle } from '@src/Team';
-import { BattleBattle } from '@src/Battle';
+import { Game } from 'sengoku-rpg-core';
+import { EventData, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
+import { ItemSystem } from 'sengoku-rpg-core';
+import { Rarity } from 'sengoku-rpg-core';
+import { TeamBattle } from 'sengoku-rpg-core';
+import { BattleBattle } from 'sengoku-rpg-core';
 import BattleFaction from '@/components/BattleFaction.vue';
 import router from '@/router';
 

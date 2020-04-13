@@ -53,14 +53,14 @@
 <script lang="ts">
 import { createComponent } from '@vue/composition-api';
 import { provide } from '@vue/composition-api';
-import { Game, GameSave } from '@src/Game';
+import { Game, GameSave, CharacterSave, BattleCenter, Skill } from 'sengoku-rpg-core';
 import save001 from '@assets/saves/sav001.json';
 import { provideGame } from '@/use/useGame';
 
 console.time('载入游戏配置');
 const game = new Game();
+// (({} as Skill)
 console.timeEnd('载入游戏配置');
-
 console.time('载入游戏存档');
 const localSave = localStorage.getItem('save001');
 if (localSave) {
@@ -82,6 +82,7 @@ export default createComponent({
     setup() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).game = game;
+        game.characterCenter;
         provideGame(game);
         // provide('game', game);
         provide('autoSave', autoSave);

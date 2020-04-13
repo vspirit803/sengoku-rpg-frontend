@@ -52,7 +52,7 @@
 </template>
 <script lang="ts">
 import { createComponent } from '@vue/composition-api';
-import { CharacterConfiguration } from '@src/Character';
+import { CharacterConfiguration } from 'sengoku-rpg-core';
 import propertiesName from '@assets/configurations/properties.json';
 
 type Property = 'atk' | 'def' | 'critRate' | 'critMultiply' | 'missRate' | 'hp' | 'speed';

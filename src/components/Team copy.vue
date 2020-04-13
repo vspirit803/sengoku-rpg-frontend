@@ -47,9 +47,9 @@
 <script lang="ts">
 import { createComponent, inject, ref, Ref, computed, reactive } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
-import { Game } from '@src/Game';
-import { TeamNormal } from '@src/Team';
-import { CharacterNormal } from '../core/Character';
+import { Game } from 'sengoku-rpg-core';
+import { TeamNormal } from 'sengoku-rpg-core';
+import { CharacterNormal } from 'sengoku-rpg-core';
 
 type Data = { team: TeamNormal };
 

@@ -5,7 +5,7 @@ module.exports = {
         resolve: {
             alias: {
                 '@': resolve('src'),
-                '@src': resolve('src/core'),
+                '@src': resolve('node_modules/sengoku-rpg-core/src'),
                 '@assets': resolve('public/assets'),
             },
         },

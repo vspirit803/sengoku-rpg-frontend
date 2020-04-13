@@ -35,8 +35,8 @@
 <script lang="ts">
 import { createComponent, inject, ref, Ref, computed, onActivated } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
-import { Game } from '@src/Game';
-import { ItemType, ItemBase, ItemSystem, ItemEquipment } from '@src/Item';
+import { Game } from 'sengoku-rpg-core';
+import { ItemType, ItemBase, ItemSystem, ItemEquipment } from 'sengoku-rpg-core';
 import Item from '@/components/Item.vue';
 
 export default createComponent({

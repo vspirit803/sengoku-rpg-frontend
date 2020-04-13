@@ -15,7 +15,7 @@
         "typeRoots": ["./node_modules/@types", "./node_modules/vuetify/types"],
         "types": ["webpack-env", "vuetify"],
         "paths": {
-            "@src/*": ["src/core/*"],
+            "@src/*": ["node_modules/sengoku-rpg-core/src/*"],
             "@assets/*": ["public/assets/*"],
             "@/*": ["src/*"]
         },

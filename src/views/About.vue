@@ -7,7 +7,7 @@
 <script lang="ts">
 import { createComponent, inject } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
-import { Game } from '@src/Game';
+import { Game } from 'sengoku-rpg-core';
 
 export default createComponent({
     name: 'About',

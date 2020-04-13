@@ -13,9 +13,9 @@
 <script lang="ts">
 import { createComponent, inject, ref, Ref } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
-import { Game } from '@src/Game';
-import { TeamNormal } from '@src/Team';
-import { FactionBattle } from '@src/Faction';
+import { Game } from 'sengoku-rpg-core';
+import { TeamNormal } from 'sengoku-rpg-core';
+import { FactionBattle } from 'sengoku-rpg-core';
 import BattleCharacter from '@/components/BattleCharacter.vue';
 
 type Data = { faction: FactionBattle };
