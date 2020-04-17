@@ -12,8 +12,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, ref, computed } from '@vue/composition-api';
-import { Game } from 'sengoku-rpg-core';
+import { createComponent } from '@vue/composition-api';
 import { ItemType, ItemBase, ItemSystem } from 'sengoku-rpg-core';
 
 interface Data {

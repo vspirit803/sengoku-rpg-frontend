@@ -33,9 +33,8 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, ref, Ref, computed, onActivated } from '@vue/composition-api';
+import { createComponent, ref, Ref, computed, onActivated } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
-import { Game } from 'sengoku-rpg-core';
 import { ItemType, ItemBase, ItemSystem, ItemEquipment } from 'sengoku-rpg-core';
 import Item from '@/components/Item.vue';
 

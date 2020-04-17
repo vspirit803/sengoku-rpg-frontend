@@ -29,11 +29,9 @@
 <script lang="ts">
 import { createComponent, inject, ref, Ref, onBeforeMount } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
-import { Game } from 'sengoku-rpg-core';
 import { EventData, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
 import { ItemSystem } from 'sengoku-rpg-core';
 import { Rarity } from 'sengoku-rpg-core';
-import { TeamBattle } from 'sengoku-rpg-core';
 import { BattleBattle } from 'sengoku-rpg-core';
 import BattleFaction from '@/components/BattleFaction.vue';
 import router from '@/router';
@@ -89,8 +87,8 @@ export default createComponent({
             battle.value.eventCenter.addSubscriber(
                 SubscriberFactory.Subscriber(
                     TriggerTiming.ActionEnd,
-                    (source, data: EventData.EventDataActionEnd) => {
-                        return new Promise((resolve, reject) => {
+                    () => {
+                        return new Promise((resolve) => {
                             setTimeout(() => {
                                 resolve(true);
                             }, 200);
