@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, ref, Ref, onBeforeMount } from '@vue/composition-api';
+import { defineComponent, inject, ref, Ref, onBeforeMount } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
 import { EventData, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
 import { ItemSystem } from 'sengoku-rpg-core';
@@ -36,7 +36,7 @@ import { BattleBattle } from 'sengoku-rpg-core';
 import BattleFaction from '@/components/BattleFaction.vue';
 import router from '@/router';
 
-export default createComponent({
+export default defineComponent({
     name: 'Battle',
     components: { BattleFaction },
     props: {

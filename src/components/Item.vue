@@ -12,13 +12,13 @@
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import { ItemType, ItemBase, ItemSystem } from 'sengoku-rpg-core';
 
 interface Data {
     item: ItemBase | null;
 }
-export default createComponent({
+export default defineComponent({
     name: 'Item',
     components: {},
     props: { item: Object },

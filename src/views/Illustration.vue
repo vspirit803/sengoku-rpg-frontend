@@ -35,11 +35,11 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 import IllustrationCharacter from '@/components/IllustrationCharacter.vue';
 import vueCustomScrollbar from 'vue-custom-scrollbar';
 import { useGame } from '@/use/useGame';
-export default createComponent({
+export default defineComponent({
     name: 'Illustration',
     components: { IllustrationCharacter, vueCustomScrollbar },
     setup() {

@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import { createComponent, ref, computed } from '@vue/composition-api';
-export default createComponent({
+import { defineComponent, ref, computed } from '@vue/composition-api';
+export default defineComponent({
     name: 'Test',
     components: {},
     setup() {

@@ -51,7 +51,7 @@
     </div>
 </template>
 <script lang="ts">
-import { createComponent } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import { CharacterConfiguration } from 'sengoku-rpg-core';
 import propertiesName from '@assets/configurations/properties.json';
 
@@ -61,7 +61,7 @@ interface Data {
     character: CharacterConfiguration & { unlocked: boolean };
 }
 
-export default createComponent({
+export default defineComponent({
     name: 'IllustrationCharacter',
     props: { character: Object },
     setup(props: Data) {

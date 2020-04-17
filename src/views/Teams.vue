@@ -19,11 +19,11 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
 import Team from '@/components/Team.vue';
 
-export default createComponent({
+export default defineComponent({
     name: 'Teams',
     components: { Team },
     setup() {

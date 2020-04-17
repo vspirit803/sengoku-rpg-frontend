@@ -33,12 +33,12 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref, Ref, computed, onActivated } from '@vue/composition-api';
+import { defineComponent, ref, Ref, computed, onActivated } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
 import { ItemType, ItemBase, ItemSystem, ItemEquipment } from 'sengoku-rpg-core';
 import Item from '@/components/Item.vue';
 
-export default createComponent({
+export default defineComponent({
     name: 'Backpack',
     components: { Item },
     setup() {

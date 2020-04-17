@@ -51,13 +51,13 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref, Ref } from '@vue/composition-api';
+import { defineComponent, ref, Ref } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
 import { TeamNormal } from 'sengoku-rpg-core';
 import router from '@/router';
-export default createComponent({
+export default defineComponent({
     name: 'BattleSelect',
-    setup() {
+    setup(props, ctx) {
         const game = useGame();
         const battleId = ref('');
         const team: Ref<undefined | TeamNormal> = ref();
@@ -85,6 +85,9 @@ export default createComponent({
             }
             const battleRouterProps = { battleId: battleId.value, teamName: team.value!.name };
             router.push({ name: 'battle', params: battleRouterProps });
+            ctx.root.$nextTick(() => {
+                console.log(123123123);
+            });
         }
         return { battles, team, teams, battleId, startBattle, showSnackbar, snackbarText };
     },

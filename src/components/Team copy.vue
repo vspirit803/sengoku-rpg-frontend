@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, ref, Ref, computed, reactive } from '@vue/composition-api';
+import { defineComponent, inject, ref, Ref, computed, reactive } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
 import { Game } from 'sengoku-rpg-core';
 import { TeamNormal } from 'sengoku-rpg-core';
@@ -53,7 +53,7 @@ import { CharacterNormal } from 'sengoku-rpg-core';
 
 type Data = { team: TeamNormal };
 
-export default createComponent({
+export default defineComponent({
     name: 'Team',
     props: { team: Object },
     setup(props: Data) {
