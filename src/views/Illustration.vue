@@ -38,17 +38,17 @@
 import { createComponent, ref } from '@vue/composition-api';
 import IllustrationCharacter from '@/components/IllustrationCharacter.vue';
 import vueCustomScrollbar from 'vue-custom-scrollbar';
-import { useGame } from '@/use/useGame';
+import { useCharacterCenter } from '@/use';
 export default createComponent({
     name: 'Illustration',
     components: { IllustrationCharacter, vueCustomScrollbar },
     setup() {
-        const game = useGame();
-        const allCharacters = game.characterCenter.charactersConfiguration.filter((eachCharacter) =>
+        const characterCenter = useCharacterCenter();
+        const allCharacters = characterCenter.charactersConfiguration.filter((eachCharacter) =>
             eachCharacter.id.startsWith('C'),
         );
         const characters = allCharacters.map((eachCharacter) => {
-            const unlocked = game.characterCenter.charactersMap.has(eachCharacter.id);
+            const unlocked = characterCenter.charactersMap.has(eachCharacter.id);
             return { ...eachCharacter, unlocked };
         });
         const currTab = ref('tab-characters');

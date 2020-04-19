@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import { createComponent, inject, ref, Ref } from '@vue/composition-api';
-import { useGame } from '@/use/useGame';
+import { useGame, useCharacterCenter } from '@/use';
 import { Game } from 'sengoku-rpg-core';
 import { TeamNormal } from 'sengoku-rpg-core';
 import { CharacterNormal } from 'sengoku-rpg-core';
@@ -64,9 +64,9 @@ export default createComponent({
     name: 'Team',
     props: { team: TeamNormal },
     setup(props: Data) {
-        const game = useGame();
         const autoSave = inject('autoSave') as Function;
         const team = props.team;
+        const characterCenter = useCharacterCenter();
         type TeamCharacter = { uuid: symbol; id: string; name: string };
         const members: Ref<Array<TeamCharacter>> = ref(
             team.members.map((each) => {
@@ -77,7 +77,7 @@ export default createComponent({
                 };
             }),
         );
-        const characters = game.characterCenter.characters
+        const characters = characterCenter.characters
             .filter((each) => each.id.startsWith('C'))
             .map((each) => {
                 return {
@@ -94,7 +94,7 @@ export default createComponent({
         }
 
         function removeMember(character: TeamCharacter) {
-            const member = game.characterCenter.getCharacter(character.id);
+            const member = characterCenter.getCharacter(character.id);
             team.removeMember(member);
             members.value.splice(
                 members.value.findIndex((each) => each.id === character.id),
@@ -131,7 +131,7 @@ export default createComponent({
                 return;
             }
 
-            const memberAfter = game.characterCenter.getCharacter(addCharacterId.value);
+            const memberAfter = characterCenter.getCharacter(addCharacterId.value);
             if (selectedCharacterId.value === undefined) {
                 //选中的是空白位置,增加
                 if (team.includes(memberAfter.id)) {
@@ -141,7 +141,7 @@ export default createComponent({
                 addMember(memberAfter);
             } else {
                 //选中有角色的位置,替换
-                const memberBefore = game.characterCenter.getCharacter(selectedCharacterId.value);
+                const memberBefore = characterCenter.getCharacter(selectedCharacterId.value);
                 if (team.includes(memberAfter.id)) {
                     //已经存在了,互换位置
                     swapMember(memberBefore, memberAfter);
