@@ -82,9 +82,7 @@ export default defineComponent({
     setup() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).game = game;
-        game.characterCenter;
         provideGame(game);
-        // provide('game', game);
         provide('autoSave', autoSave);
     },
 });
