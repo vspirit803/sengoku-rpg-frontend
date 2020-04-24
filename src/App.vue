@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import { provide } from '@vue/composition-api';
 import { Game, GameSave, CharacterSave, BattleCenter, Skill } from 'sengoku-rpg-core';
 import save001 from '@assets/saves/sav001.json';
@@ -77,14 +77,12 @@ function autoSave() {
     localStorage.setItem('save001', saveString);
 }
 
-export default createComponent({
+export default defineComponent({
     name: 'App',
     setup() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).game = game;
-        game.characterCenter;
         provideGame(game);
-        // provide('game', game);
         provide('autoSave', autoSave);
     },
 });

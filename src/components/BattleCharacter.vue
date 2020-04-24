@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref, computed } from '@vue/composition-api';
+import { defineComponent, ref, computed } from '@vue/composition-api';
 import { CharacterBattle } from 'sengoku-rpg-core';
 import { TriggerTiming, EventData, SubscriberFactory } from 'sengoku-rpg-core';
 import { useGame } from '@/use/useGame';
@@ -27,7 +27,7 @@ type Data = { character: CharacterBattle };
 /**
  * 战斗阵营
  */
-export default createComponent({
+export default defineComponent({
     name: 'BattleCharacter',
     props: { character: Object },
     setup(props: Data) {
