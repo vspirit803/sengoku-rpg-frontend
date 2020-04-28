@@ -52,10 +52,9 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, ref, Ref } from '@vue/composition-api';
-import { useCharacterCenter } from '@/use';
-import { TeamNormal } from 'sengoku-rpg-core';
-import { CharacterNormal } from 'sengoku-rpg-core';
+import { createComponent, ref, Ref } from '@vue/composition-api';
+import { useCharacterCenter, useQuickSave } from '@/use';
+import { TeamNormal, CharacterNormal } from 'sengoku-rpg-core';
 
 type Data = { team: TeamNormal };
 
@@ -63,7 +62,7 @@ export default createComponent({
     name: 'Team',
     props: { team: TeamNormal },
     setup(props: Data) {
-        const autoSave = inject('autoSave') as Function;
+        const quickSave = useQuickSave();
         const team = props.team;
         const characterCenter = useCharacterCenter();
         type TeamCharacter = { uuid: symbol; id: string; name: string };
@@ -149,7 +148,7 @@ export default createComponent({
                     addMember(memberAfter);
                 }
             }
-            autoSave();
+            quickSave();
 
             showAddMemberDialog.value = false;
             addCharacterId.value = undefined;

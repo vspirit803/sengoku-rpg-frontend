@@ -27,8 +27,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref, Ref, onBeforeMount } from '@vue/composition-api';
-import { useGame } from '@/use/useGame';
+import { defineComponent, ref, Ref, onBeforeMount } from '@vue/composition-api';
+import { useGame, useQuickSave } from '@/use';
 import { EventData, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
 import { ItemSystem } from 'sengoku-rpg-core';
 import { Rarity } from 'sengoku-rpg-core';
@@ -45,7 +45,7 @@ export default defineComponent({
     },
     setup(props: { battleId: string; teamName: string }) {
         const game = useGame();
-        const autoSave = inject('autoSave') as Function;
+        const quickSave = useQuickSave();
         const battle: Ref<BattleBattle> = ref(undefined);
         const showDialog = ref(false);
         onBeforeMount(() => {
@@ -110,7 +110,7 @@ export default defineComponent({
                     new ItemSystem({ id: 'money', name: '金钱', count: 20, rarity: Rarity.Immortal }),
                 );
                 console.timeEnd('战斗');
-                autoSave();
+                quickSave();
                 showDialog.value = true;
             });
         });

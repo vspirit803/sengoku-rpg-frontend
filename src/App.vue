@@ -72,10 +72,6 @@ if (localSave) {
     console.log('读取预设存档');
 }
 console.timeEnd('载入游戏存档');
-function autoSave() {
-    const saveString = JSON.stringify(game.generateSave());
-    localStorage.setItem('save001', saveString);
-}
 
 export default defineComponent({
     name: 'App',
@@ -83,7 +79,6 @@ export default defineComponent({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).game = game;
         provideGame(game);
-        provide('autoSave', autoSave);
     },
 });
 </script>
