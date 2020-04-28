@@ -70,7 +70,6 @@ export default createComponent({
 .characters-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
 }
 .my-scroll-bar {
     width: 100%;
