@@ -11,10 +11,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref, Ref } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
-import { Game } from 'sengoku-rpg-core';
-import { TeamNormal } from 'sengoku-rpg-core';
 import { FactionBattle } from 'sengoku-rpg-core';
 import BattleCharacter from '@/components/BattleCharacter.vue';
 
@@ -27,9 +25,9 @@ export default defineComponent({
     name: 'BattleFaction',
     components: { BattleCharacter },
     props: { faction: Object },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setup(props: Data) {
         const game = useGame();
-
         return {
             game,
         };

@@ -53,8 +53,7 @@
 
 <script lang="ts">
 import { createComponent, inject, ref, Ref } from '@vue/composition-api';
-import { useGame, useCharacterCenter } from '@/use';
-import { Game } from 'sengoku-rpg-core';
+import { useCharacterCenter } from '@/use';
 import { TeamNormal } from 'sengoku-rpg-core';
 import { CharacterNormal } from 'sengoku-rpg-core';
 

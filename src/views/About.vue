@@ -5,9 +5,8 @@
     </div>
 </template>
 <script lang="ts">
-import { defineComponent, inject } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
-import { Game } from 'sengoku-rpg-core';
 
 export default defineComponent({
     name: 'About',

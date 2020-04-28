@@ -21,11 +21,11 @@
             </v-container>
         </v-item-group>
         <v-banner single-line>选择参战队伍</v-banner>
-        <v-item-group v-model="team" mandatory>
+        <v-item-group v-model="teamName" mandatory>
             <v-container>
                 <v-row>
                     <v-col v-for="each of teams" :key="each.uuid" cols="12" md="3">
-                        <v-item v-slot:default="{ active, toggle }" :value="each.instence">
+                        <v-item v-slot:default="{ active, toggle }" :value="each.name">
                             <v-card
                                 :color="active ? 'primary' : ''"
                                 class="d-flex align-center"
@@ -53,43 +53,27 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from '@vue/composition-api';
 import { useGame } from '@/use/useGame';
-import { TeamNormal } from 'sengoku-rpg-core';
 import router from '@/router';
 export default defineComponent({
     name: 'BattleSelect',
-    setup(props, ctx) {
+    setup() {
         const game = useGame();
         const battleId = ref('');
-        const team: Ref<undefined | TeamNormal> = ref();
+        const teamName: Ref<string> = ref('');
         const showSnackbar = ref(false);
         const snackbarText = ref('');
-        const battles = game.battleCenter.battles.map((each) => {
-            const { id, name } = each;
-            return {
-                id,
-                name,
-            };
-        });
-        const teams = game.teamCenter.teams.map((each) => {
-            return {
-                name: each.name,
-                uuid: each.uuid,
-                instence: Object.seal(each),
-            };
-        });
+        const battles = game.battleCenter.battles.map(({ id, name }) => ({ id, name }));
+        const teams = game.teamCenter.teams.map(({ name, uuid }) => ({ name, uuid }));
         function startBattle() {
             if (!battleId.value) {
                 snackbarText.value = '请选择战斗';
                 showSnackbar.value = true;
                 return;
             }
-            const battleRouterProps = { battleId: battleId.value, teamName: team.value!.name };
+            const battleRouterProps = { battleId: battleId.value, teamName: teamName.value };
             router.push({ name: 'battle', params: battleRouterProps });
-            ctx.root.$nextTick(() => {
-                console.log(123123123);
-            });
         }
-        return { battles, team, teams, battleId, startBattle, showSnackbar, snackbarText };
+        return { battles, teamName, teams, battleId, startBattle, showSnackbar, snackbarText };
     },
 });
 </script>

@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import { ItemType, ItemBase, ItemSystem } from 'sengoku-rpg-core';
+import { ItemBase } from 'sengoku-rpg-core';
 
 interface Data {
     item: ItemBase | null;
@@ -22,9 +22,9 @@ export default defineComponent({
     name: 'Item',
     components: {},
     props: { item: Object },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setup(props: Data) {
-        const item = props.item;
-        return {};
+        /**todo */
     },
 });
 </script>
