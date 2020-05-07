@@ -52,10 +52,9 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import { provide } from '@vue/composition-api';
 import { Game, GameSave } from 'sengoku-rpg-core';
 import save001 from '@assets/saves/sav001.json';
-import { provideGame } from '@/use/useGame';
+import { provideGame } from '@/use';
 
 console.time('载入游戏配置');
 const game = new Game();

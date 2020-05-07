@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import { useGame } from '@/use/useGame';
+import { useGame } from '@/use';
 import { FactionBattle } from 'sengoku-rpg-core';
 import BattleCharacter from '@/components/BattleCharacter.vue';
 

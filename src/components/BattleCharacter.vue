@@ -20,7 +20,7 @@
 import { defineComponent, ref, computed } from '@vue/composition-api';
 import { CharacterBattle } from 'sengoku-rpg-core';
 import { TriggerTiming, EventData, SubscriberFactory } from 'sengoku-rpg-core';
-import { useGame } from '@/use/useGame';
+import { useGame } from '@/use';
 
 type Data = { character: CharacterBattle };
 

@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api';
-import { useGame } from '@/use/useGame';
+import { useGame } from '@/use';
 import Team from '@/components/Team.vue';
 
 export default defineComponent({

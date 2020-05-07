@@ -52,13 +52,13 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref, Ref } from '@vue/composition-api';
+import { defineComponent, ref, Ref } from '@vue/composition-api';
 import { useCharacterCenter, useQuickSave } from '@/use';
 import { TeamNormal, CharacterNormal } from 'sengoku-rpg-core';
 
 type Data = { team: TeamNormal };
 
-export default createComponent({
+export default defineComponent({
     name: 'Team',
     props: { team: TeamNormal },
     setup(props: Data) {
