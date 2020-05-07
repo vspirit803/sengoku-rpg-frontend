@@ -1,5 +1,7 @@
 import { inject, provide } from '@vue/composition-api';
+
 import { Game } from 'sengoku-rpg-core';
+
 const GameSymbol = Symbol();
 
 export function provideGame(game: Game) {
