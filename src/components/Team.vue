@@ -52,9 +52,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from '@vue/composition-api';
+import { defineComponent, Ref, ref } from '@vue/composition-api';
+import { CharacterNormal, TeamNormal } from 'sengoku-rpg-core';
+
 import { useCharacterCenter, useQuickSave } from '@/use';
-import { TeamNormal, CharacterNormal } from 'sengoku-rpg-core';
 
 type Data = { team: TeamNormal };
 

@@ -1,4 +1,5 @@
 import { TeamNormal } from 'sengoku-rpg-core';
+
 import { useGame } from './useGame';
 
 /**

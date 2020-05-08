@@ -6,6 +6,7 @@ module.exports = {
         node: true,
         es6: true,
     },
+    plugins: ['simple-import-sort'],
     extends: [
         'plugin:vue/essential',
         'eslint:recommended',
@@ -42,5 +43,6 @@ module.exports = {
         // 'no-eval': 'off',
         // 'computed-property-even-spacing': 'off',
         // 'standard/computed-property-even-spacing': 'off'
+        'simple-import-sort/sort': 'error',
     },
 };

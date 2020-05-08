@@ -51,9 +51,9 @@
     </div>
 </template>
 <script lang="ts">
+import propertiesName from '@assets/configurations/properties.json';
 import { defineComponent } from '@vue/composition-api';
 import { CharacterConfiguration } from 'sengoku-rpg-core';
-import propertiesName from '@assets/configurations/properties.json';
 
 type Property = 'atk' | 'def' | 'critRate' | 'critMultiply' | 'missRate' | 'hp' | 'speed';
 

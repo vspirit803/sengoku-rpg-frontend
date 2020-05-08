@@ -36,8 +36,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api';
-import IllustrationCharacter from '@/components/IllustrationCharacter.vue';
 import vueCustomScrollbar from 'vue-custom-scrollbar';
+
+import IllustrationCharacter from '@/components/IllustrationCharacter.vue';
 import { useCharacterCenter } from '@/use';
 export default defineComponent({
     name: 'Illustration',

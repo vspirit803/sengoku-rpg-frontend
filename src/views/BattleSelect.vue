@@ -51,9 +51,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from '@vue/composition-api';
-import { useGame } from '@/use';
+import { defineComponent, Ref, ref } from '@vue/composition-api';
+
 import router from '@/router';
+import { useGame } from '@/use';
 export default defineComponent({
     name: 'BattleSelect',
     setup() {

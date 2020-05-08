@@ -17,9 +17,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 import { CharacterBattle } from 'sengoku-rpg-core';
-import { TriggerTiming, EventData, SubscriberFactory } from 'sengoku-rpg-core';
+import { EventData, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
+
 import { useGame } from '@/use';
 
 type Data = { character: CharacterBattle };

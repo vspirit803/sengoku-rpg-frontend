@@ -6,6 +6,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
+
 import { useGame } from '@/use';
 
 export default defineComponent({

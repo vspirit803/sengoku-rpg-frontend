@@ -27,14 +27,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, onBeforeMount } from '@vue/composition-api';
-import { useGame, useQuickSave } from '@/use';
+import { defineComponent, onBeforeMount, Ref, ref } from '@vue/composition-api';
 import { EventData, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
 import { ItemSystem } from 'sengoku-rpg-core';
 import { Rarity } from 'sengoku-rpg-core';
 import { BattleBattle } from 'sengoku-rpg-core';
+
 import BattleFaction from '@/components/BattleFaction.vue';
 import router from '@/router';
+import { useGame, useQuickSave } from '@/use';
 
 export default defineComponent({
     name: 'Battle',
