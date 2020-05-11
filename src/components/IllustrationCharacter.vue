@@ -1,6 +1,6 @@
 <template>
     <v-responsive :aspect-ratio="3 / 4" v-if="!character.unlocked" class="illustration-character">
-        <div style="width:100%; height:100%;" class="d-flex justify-center align-center">
+        <div style="width: 100%; height: 100%;" class="d-flex justify-center align-center">
             <v-overlay absolute :value="true"> </v-overlay>
             <span v-text="name"></span>
             <v-icon x-large>mdi-lock</v-icon>
@@ -28,17 +28,17 @@
                             :key="eachProperty"
                             class="property"
                         >
-                            <span style="width:40%; display:inline-block;">
+                            <span style="width: 40%; display: inline-block;">
                                 <v-icon :color="getPropertyColor(eachProperty)">
                                     {{ getPropertyIcon(eachProperty) }}
                                 </v-icon>
                                 {{ getPropertyName(eachProperty) }}
                             </span>
-                            <span class="text-right" style="width:20%; display:inline-block;">
+                            <span class="text-right" style="width: 20%; display: inline-block;">
                                 {{ getPropertyBaseValue(eachProperty) }}
                             </span>
                             <span
-                                style="display:inline-block;"
+                                style="display: inline-block;"
                                 v-if="character.properties[eachProperty].increaseValue !== 0"
                             >
                                 + {{ character.properties[eachProperty].increaseValue }}/级
