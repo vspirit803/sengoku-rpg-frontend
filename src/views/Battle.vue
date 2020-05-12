@@ -28,10 +28,7 @@
 
 <script lang="ts">
 import { defineComponent, onBeforeMount, Ref, ref } from '@vue/composition-api';
-import { EventData, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
-import { ItemSystem } from 'sengoku-rpg-core';
-import { Rarity } from 'sengoku-rpg-core';
-import { BattleBattle } from 'sengoku-rpg-core';
+import { BattleBattle, EventData, ItemSystem, Rarity, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
 
 import BattleFaction from '@/components/BattleFaction.vue';
 import router from '@/router';
@@ -53,9 +50,9 @@ export default defineComponent({
             const team = game.teamCenter.teams.find((each) => each.name === props.teamName)!;
             battle.value = Object.seal(game.battleCenter.generateBattle(props.battleId, team));
             battle.value.eventCenter.addSubscriber(
-                SubscriberFactory.Subscriber(
-                    TriggerTiming.BattleStart,
-                    (source, data: EventData.EventDataBattleStart) => {
+                SubscriberFactory.Subscriber({
+                    event: TriggerTiming.BattleStart,
+                    callback: (source, data: EventData.EventDataBattleStart) => {
                         const battle = data.battle;
                         console.log(
                             `[${battle.factions[0].name}]与[${battle.factions[1].name}]两个阵营的矛盾终于暴发了,被后世称为[${battle.name}]的战斗正式打响`,
@@ -64,15 +61,14 @@ export default defineComponent({
                         console.log(battle.successCondition.getFormatedDescription());
                         return true;
                     },
-                    undefined,
-                    2,
-                ),
+                    priority: 2,
+                }),
             );
 
             battle.value.eventCenter.addSubscriber(
-                SubscriberFactory.Subscriber(
-                    TriggerTiming.BattleSuccess,
-                    (source, data: EventData.EventDataBattleSuccess) => {
+                SubscriberFactory.Subscriber({
+                    event: TriggerTiming.BattleSuccess,
+                    callback: (source, data: EventData.EventDataBattleSuccess) => {
                         const battle = data.battle;
                         console.log(
                             `经过${data.round}回合的鏖战后,[${battle.factions[0].name}]终于取得了胜利`,
@@ -80,24 +76,35 @@ export default defineComponent({
                         );
                         return true;
                     },
-                    undefined,
-                    2,
-                ),
+                    priority: 2,
+                }),
             );
 
             battle.value.eventCenter.addSubscriber(
-                SubscriberFactory.Subscriber(
-                    TriggerTiming.ActionEnd,
-                    () => {
+                SubscriberFactory.Subscriber({
+                    event: TriggerTiming.ActionEnd,
+                    callback: () => {
                         return new Promise((resolve) => {
                             setTimeout(() => {
                                 resolve(true);
                             }, 200);
                         });
                     },
-                    undefined,
-                    2,
-                ),
+                }),
+            );
+
+            battle.value.eventCenter.addSubscriber(
+                SubscriberFactory.Subscriber({
+                    event: TriggerTiming.SkillSelect,
+                    callback: (source, data: EventData.EventDataSkillSelect) => {
+                        const character = data.source;
+                        console.log(`轮到${character.name}选择技能和目标了`);
+                        const availableTargets = character.enemies.filter((eachCharacter) => eachCharacter.isAlive);
+                        const target = availableTargets[Math.floor(Math.random() * availableTargets.length)];
+                        data.selectedTarget = target;
+                        return true;
+                    },
+                }),
             );
 
             console.time('战斗');

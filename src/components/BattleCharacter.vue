@@ -44,18 +44,18 @@ export default defineComponent({
             return (prevHp.value / hpMax) * 100;
         });
         character.battle!.eventCenter.addSubscriber(
-            SubscriberFactory.Subscriber(
-                TriggerTiming.Attacked,
-                (source, data: EventData.EventDataAttacked) => {
+            SubscriberFactory.Subscriber({
+                event: TriggerTiming.Attacked,
+                callback: (source, data: EventData.EventDataAttacked) => {
                     currHp.value = data.target.currHp;
                     setTimeout(() => {
                         prevHp.value = currHp.value;
                     }, 200);
                     return true;
                 },
-                character,
-                1,
-            ),
+                filter: character,
+                priority: 1,
+            }),
         );
         return {
             game,
