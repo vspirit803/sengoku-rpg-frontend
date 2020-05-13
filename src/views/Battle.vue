@@ -27,8 +27,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, Ref, ref, computed } from '@vue/composition-api';
-import { BattleBattle, EventData, ItemSystem, Rarity, SubscriberFactory, TriggerTiming, BattleCenter ,CharacterBattle} from 'sengoku-rpg-core';
+import { computed, defineComponent, onBeforeMount, Ref, ref } from '@vue/composition-api';
+import {
+    BattleBattle,
+    BattleCenter,
+    CharacterBattle,
+    EventData,
+    ItemSystem,
+    Rarity,
+    SubscriberFactory,
+    TriggerTiming,
+} from 'sengoku-rpg-core';
 
 import BattleFaction from '@/components/BattleFaction.vue';
 import router from '@/router';
@@ -40,12 +49,10 @@ type BattleVm = {
         name: string;
         teams: {
             name: string;
-            members: (
-                 {
-                      selectable: boolean;
-                  }
-                & CharacterBattle
-            )[];
+            members: {
+                selectable: boolean;
+                instence: CharacterBattle;
+            }[];
         }[];
     }[];
 };
@@ -61,7 +68,7 @@ function battleBattle2Vm(battle: BattleBattle): BattleVm {
                         name: eachTeam.name,
                         members: eachTeam.members.map((eachMember) => {
                             return {
-                                ...eachMember,
+                                instence: eachMember,
                                 selectable: false,
                             };
                         }),
@@ -88,11 +95,13 @@ export default defineComponent({
         const showDialog = ref(false);
 
         const characters = computed(() => {
-            return battle.value.factions.map((eachFaction) => {
-                return eachFaction.teams
-                    .map((eachTeam) => eachTeam.members)
-                    .reduce((prev, curr) => [...prev, ...curr], []);
-            }).reduce((prev, curr) => [...prev, ...curr], []);
+            return battle.value.factions
+                .map((eachFaction) => {
+                    return eachFaction.teams
+                        .map((eachTeam) => eachTeam.members)
+                        .reduce((prev, curr) => [...prev, ...curr], []);
+                })
+                .reduce((prev, curr) => [...prev, ...curr], []);
         });
         onBeforeMount(() => {
             const team = game.teamCenter.teams.find((each) => each.name === props.teamName)!;
@@ -148,15 +157,23 @@ export default defineComponent({
                     event: TriggerTiming.SkillSelect,
                     callback: (source, data: EventData.EventDataSkillSelect) => {
                         const character = data.source;
-                        console.log(`轮到${character.name}选择技能和目标了`);
                         const availableTargets = character.enemies.filter((eachCharacter) => eachCharacter.isAlive);
-                        availableTargets.forEach((eachTarget)=>{
-                            const target = characters.value.find((each)=)
-                        })
 
+                        availableTargets.forEach((eachTarget) => {
+                            const target = characters.value.find((each) => each.instence.uuid === eachTarget.uuid)!;
+                            target.selectable = true;
+                        });
                         const target = availableTargets[Math.floor(Math.random() * availableTargets.length)];
                         data.selectedTarget = target;
-                        return true;
+                        return new Promise((resolve) => {
+                            setTimeout(() => {
+                                characters.value.forEach((each) => {
+                                    each.selectable = false;
+                                });
+                                resolve(true);
+                            }, 2000);
+                        });
+                        // return true;
                     },
                 }),
             );

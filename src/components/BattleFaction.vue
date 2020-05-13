@@ -5,7 +5,12 @@
         </v-row>
         <div v-for="eachTeam of faction.teams" :key="eachTeam.uuid" class="battle-team">
             <div v-text="eachTeam.name" class="red--text"></div>
-            <BattleCharacter v-for="eachMember of eachTeam.members" :key="eachMember.uuid" :character="eachMember" />
+            <BattleCharacter
+                v-for="eachMember of eachTeam.members"
+                :key="eachMember.uuid"
+                :character="eachMember.instence"
+                :selectable="eachMember.selectable"
+            />
         </div>
     </div>
 </template>

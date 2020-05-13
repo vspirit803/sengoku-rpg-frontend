@@ -1,5 +1,9 @@
 <template>
-    <v-card class="battle-character my-2 mx-2" :class="{ 'grey--text': !character.isAlive }">
+    <v-card
+        class="battle-character my-2 mx-2"
+        :class="{ 'grey--text': !character.isAlive, selectable }"
+        @click.self="select"
+    >
         <v-avatar size="80" tile>
             <v-img :aspect-ratio="3 / 4" :src="imageUrl">
                 <template v-slot:placeholder>
@@ -23,17 +27,17 @@ import { EventData, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
 
 import { useGame } from '@/use';
 
-type Data = { character: CharacterBattle };
+type Data = { character: CharacterBattle; selectable: boolean };
 
 /**
  * 战斗阵营
  */
 export default defineComponent({
     name: 'BattleCharacter',
-    props: { character: Object },
-    setup(props: Data) {
+    props: { character: Object, selectable: Boolean },
+    setup(props: Data, context) {
         const game = useGame();
-        const { character } = props;
+        const { character, selectable } = props;
         const hpMax = character.properties.hp.battleValue;
         const currHp = ref(hpMax);
         const prevHp = ref(hpMax);
@@ -57,6 +61,14 @@ export default defineComponent({
                 priority: 1,
             }),
         );
+
+        function select() {
+            if (!selectable) {
+                return;
+            }
+            console.log(`${character.name}被选中`);
+            context.emit('SelectTarget', character);
+        }
         return {
             game,
             hpMax,
@@ -64,8 +76,20 @@ export default defineComponent({
             currVal,
             prevVal,
             imageUrl: 'assets/images/' + character.id + '.png',
+            select,
         };
     },
 });
 </script>
-<style scoped></style>
+<style scoped>
+.battle-character {
+    border-width: 2px;
+    border-style: solid;
+    border-color: beige;
+    cursor: default;
+}
+.selectable {
+    border-color: red;
+    cursor: pointer;
+}
+</style>
