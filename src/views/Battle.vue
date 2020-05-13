@@ -27,12 +27,50 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, Ref, ref } from '@vue/composition-api';
-import { BattleBattle, EventData, ItemSystem, Rarity, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
+import { defineComponent, onBeforeMount, Ref, ref, computed } from '@vue/composition-api';
+import { BattleBattle, EventData, ItemSystem, Rarity, SubscriberFactory, TriggerTiming, BattleCenter ,CharacterBattle} from 'sengoku-rpg-core';
 
 import BattleFaction from '@/components/BattleFaction.vue';
 import router from '@/router';
 import { useGame, useQuickSave } from '@/use';
+
+type BattleVm = {
+    name: string;
+    factions: {
+        name: string;
+        teams: {
+            name: string;
+            members: (
+                 {
+                      selectable: boolean;
+                  }
+                & CharacterBattle
+            )[];
+        }[];
+    }[];
+};
+
+function battleBattle2Vm(battle: BattleBattle): BattleVm {
+    return {
+        name: battle.name,
+        factions: battle.factions.map((each) => {
+            return {
+                name: each.name,
+                teams: each.teams.map((eachTeam) => {
+                    return {
+                        name: eachTeam.name,
+                        members: eachTeam.members.map((eachMember) => {
+                            return {
+                                ...eachMember,
+                                selectable: false,
+                            };
+                        }),
+                    };
+                }),
+            };
+        }),
+    };
+}
 
 export default defineComponent({
     name: 'Battle',
@@ -44,12 +82,24 @@ export default defineComponent({
     setup(props: { battleId: string; teamName: string }) {
         const game = useGame();
         const quickSave = useQuickSave();
-        const battle: Ref<BattleBattle> = ref(undefined);
+        // const battle: Ref<BattleBattle> = ref(undefined);
+        const battle: Ref<BattleVm> = ref(undefined);
+
         const showDialog = ref(false);
+
+        const characters = computed(() => {
+            return battle.value.factions.map((eachFaction) => {
+                return eachFaction.teams
+                    .map((eachTeam) => eachTeam.members)
+                    .reduce((prev, curr) => [...prev, ...curr], []);
+            }).reduce((prev, curr) => [...prev, ...curr], []);
+        });
         onBeforeMount(() => {
             const team = game.teamCenter.teams.find((each) => each.name === props.teamName)!;
-            battle.value = Object.seal(game.battleCenter.generateBattle(props.battleId, team));
-            battle.value.eventCenter.addSubscriber(
+            const battleInstence = Object.seal(game.battleCenter.generateBattle(props.battleId, team));
+            battle.value = battleBattle2Vm(battleInstence);
+            // battle.value = Object.seal(game.battleCenter.generateBattle(props.battleId, team));
+            battleInstence.eventCenter.addSubscriber(
                 SubscriberFactory.Subscriber({
                     event: TriggerTiming.BattleStart,
                     callback: (source, data: EventData.EventDataBattleStart) => {
@@ -65,7 +115,7 @@ export default defineComponent({
                 }),
             );
 
-            battle.value.eventCenter.addSubscriber(
+            battleInstence.eventCenter.addSubscriber(
                 SubscriberFactory.Subscriber({
                     event: TriggerTiming.BattleSuccess,
                     callback: (source, data: EventData.EventDataBattleSuccess) => {
@@ -80,7 +130,7 @@ export default defineComponent({
                 }),
             );
 
-            battle.value.eventCenter.addSubscriber(
+            battleInstence.eventCenter.addSubscriber(
                 SubscriberFactory.Subscriber({
                     event: TriggerTiming.ActionEnd,
                     callback: () => {
@@ -93,13 +143,17 @@ export default defineComponent({
                 }),
             );
 
-            battle.value.eventCenter.addSubscriber(
+            battleInstence.eventCenter.addSubscriber(
                 SubscriberFactory.Subscriber({
                     event: TriggerTiming.SkillSelect,
                     callback: (source, data: EventData.EventDataSkillSelect) => {
                         const character = data.source;
                         console.log(`轮到${character.name}选择技能和目标了`);
                         const availableTargets = character.enemies.filter((eachCharacter) => eachCharacter.isAlive);
+                        availableTargets.forEach((eachTarget)=>{
+                            const target = characters.value.find((each)=)
+                        })
+
                         const target = availableTargets[Math.floor(Math.random() * availableTargets.length)];
                         data.selectedTarget = target;
                         return true;
@@ -108,7 +162,7 @@ export default defineComponent({
             );
 
             console.time('战斗');
-            battle.value.start().then(() => {
+            battleInstence.start().then(() => {
                 const equipmentsConfiguration = game.backpack.equipmentCenter.equipmentsConfiguration;
                 const equipmentConfiguration =
                     equipmentsConfiguration[Math.floor(Math.random() * equipmentsConfiguration.length)];
@@ -126,6 +180,7 @@ export default defineComponent({
             showDialog.value = false;
             router.back();
         }
+
         return { battle, showDialog, confirm };
     },
 });
