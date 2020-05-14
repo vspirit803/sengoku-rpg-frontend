@@ -10,6 +10,7 @@
                 :key="eachMember.uuid"
                 :character="eachMember.instence"
                 :selectable="eachMember.selectable"
+                @selectTarget="selectTarget"
             />
         </div>
     </div>
@@ -17,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import { FactionBattle } from 'sengoku-rpg-core';
+import { CharacterBattle, FactionBattle } from 'sengoku-rpg-core';
 
 import BattleCharacter from '@/components/BattleCharacter.vue';
 import { useGame } from '@/use';
@@ -32,10 +33,15 @@ export default defineComponent({
     components: { BattleCharacter },
     props: { faction: Object },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setup(props: Data) {
+    setup(props: Data, context) {
         const game = useGame();
+
+        function selectTarget(target: CharacterBattle) {
+            context.emit('selectTarget', target);
+        }
         return {
             game,
+            selectTarget,
         };
     },
 });

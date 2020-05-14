@@ -2,7 +2,7 @@
     <v-card
         class="battle-character my-2 mx-2"
         :class="{ 'grey--text': !character.isAlive, selectable }"
-        @click.self="select"
+        @click="select"
     >
         <v-avatar size="80" tile>
             <v-img :aspect-ratio="3 / 4" :src="imageUrl">
@@ -37,7 +37,7 @@ export default defineComponent({
     props: { character: Object, selectable: Boolean },
     setup(props: Data, context) {
         const game = useGame();
-        const { character, selectable } = props;
+        const { character } = props;
         const hpMax = character.properties.hp.battleValue;
         const currHp = ref(hpMax);
         const prevHp = ref(hpMax);
@@ -63,11 +63,11 @@ export default defineComponent({
         );
 
         function select() {
-            if (!selectable) {
+            if (!props.selectable) {
                 return;
             }
             console.log(`${character.name}被选中`);
-            context.emit('SelectTarget', character);
+            context.emit('selectTarget', character);
         }
         return {
             game,
@@ -83,13 +83,16 @@ export default defineComponent({
 </script>
 <style scoped>
 .battle-character {
-    border-width: 2px;
-    border-style: solid;
-    border-color: beige;
+    box-sizing: border-box;
+    padding: 2px;
     cursor: default;
+    user-select: none;
 }
 .selectable {
     border-color: red;
     cursor: pointer;
+    padding: 0px;
+    border-width: 2px;
+    border-style: solid;
 }
 </style>

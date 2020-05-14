@@ -4,7 +4,12 @@
             <h2>{{ battle.name }}</h2>
         </v-row>
         <div class="battle-factions">
-            <BattleFaction v-for="each of battle.factions" :key="each.uuid" :faction="each" />
+            <BattleFaction
+                v-for="each of battle.factions"
+                :key="each.uuid"
+                :faction="each"
+                @selectTarget="selectTarget"
+            />
         </div>
         <v-dialog width="500" v-model="showDialog" attach=".battle" persistent>
             <v-card>
@@ -27,10 +32,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from '@vue/composition-api';
+import { computed, defineComponent, onBeforeMount, reactive, Ref, ref } from '@vue/composition-api';
 import {
     BattleBattle,
-    BattleCenter,
     CharacterBattle,
     EventData,
     ItemSystem,
@@ -91,7 +95,9 @@ export default defineComponent({
         const quickSave = useQuickSave();
         // const battle: Ref<BattleBattle> = ref(undefined);
         const battle: Ref<BattleVm> = ref(undefined);
-
+        let selectTargetPromise: Promise<boolean> | undefined;
+        let selectTargetResolve: ((value: boolean) => void) | undefined;
+        let selectData: EventData.EventDataSkillSelect | undefined;
         const showDialog = ref(false);
 
         const characters = computed(() => {
@@ -105,9 +111,8 @@ export default defineComponent({
         });
         onBeforeMount(() => {
             const team = game.teamCenter.teams.find((each) => each.name === props.teamName)!;
-            const battleInstence = Object.seal(game.battleCenter.generateBattle(props.battleId, team));
-            battle.value = battleBattle2Vm(battleInstence);
-            // battle.value = Object.seal(game.battleCenter.generateBattle(props.battleId, team));
+            const battleInstence = game.battleCenter.generateBattle(props.battleId, team);
+            battle.value = reactive(battleBattle2Vm(battleInstence));
             battleInstence.eventCenter.addSubscriber(
                 SubscriberFactory.Subscriber({
                     event: TriggerTiming.BattleStart,
@@ -158,21 +163,26 @@ export default defineComponent({
                     callback: (source, data: EventData.EventDataSkillSelect) => {
                         const character = data.source;
                         const availableTargets = character.enemies.filter((eachCharacter) => eachCharacter.isAlive);
-
                         availableTargets.forEach((eachTarget) => {
                             const target = characters.value.find((each) => each.instence.uuid === eachTarget.uuid)!;
                             target.selectable = true;
                         });
-                        const target = availableTargets[Math.floor(Math.random() * availableTargets.length)];
-                        data.selectedTarget = target;
-                        return new Promise((resolve) => {
-                            setTimeout(() => {
-                                characters.value.forEach((each) => {
-                                    each.selectable = false;
-                                });
-                                resolve(true);
-                            }, 2000);
+
+                        selectData = data;
+                        // const target = availableTargets[Math.floor(Math.random() * availableTargets.length)];
+                        // data.selectedTarget = target;
+                        selectTargetPromise = new Promise((resolve) => {
+                            selectTargetResolve = resolve;
                         });
+                        return selectTargetPromise;
+                        // return new Promise((resolve) => {
+                        //     setTimeout(() => {
+                        //         characters.value.forEach((each) => {
+                        //             each.selectable = false;
+                        //         });
+                        //         resolve(true);
+                        //     }, 2000);
+                        // });
                         // return true;
                     },
                 }),
@@ -198,7 +208,17 @@ export default defineComponent({
             router.back();
         }
 
-        return { battle, showDialog, confirm };
+        function selectTarget(target: CharacterBattle) {
+            selectData!.selectedTarget = target;
+            selectTargetResolve?.(true);
+            characters.value.forEach((each) => {
+                each.selectable = false;
+            });
+            selectData = undefined;
+            selectTargetResolve = undefined;
+        }
+
+        return { battle, showDialog, confirm, selectTarget };
     },
 });
 </script>
