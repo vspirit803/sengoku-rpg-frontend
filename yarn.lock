@@ -1075,19 +1075,12 @@
     webpack "^4.0.0"
     yorkie "^2.0.0"
 
-"@vue/cli-plugin-router@^4.4.1":
+"@vue/cli-plugin-router@^4.4.1", "@vue/cli-plugin-router@~4.4.1":
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/@vue/cli-plugin-router/-/cli-plugin-router-4.4.1.tgz#07d09df0f4bea816e637da814f578b808f1f93b2"
   integrity sha512-kCSsJG7pjDvCJDjGtcCI5l0UjmqwNigOR41RkeGSjSUvzV4ArSniXjFqrOmtpMp36S5xCtwtt9MFm/K4fCubkQ==
   dependencies:
     "@vue/cli-shared-utils" "^4.4.1"
-
-"@vue/cli-plugin-router@~4.3.1":
-  version "4.3.1"
-  resolved "https://registry.npm.taobao.org/@vue/cli-plugin-router/download/@vue/cli-plugin-router-4.3.1.tgz#0ba589f4e9a1f3e64a8ff6ccd92f7ce2845586bf"
-  integrity sha1-C6WJ9Omh8+ZKj/bM2S984oRVhr8=
-  dependencies:
-    "@vue/cli-shared-utils" "^4.3.1"
 
 "@vue/cli-plugin-typescript@~4.4.1":
   version "4.4.1"
@@ -1105,7 +1098,7 @@
     webpack "^4.0.0"
     yorkie "^2.0.0"
 
-"@vue/cli-plugin-vuex@^4.3.1", "@vue/cli-plugin-vuex@~4.4.1":
+"@vue/cli-plugin-vuex@^4.4.1", "@vue/cli-plugin-vuex@~4.4.1":
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/@vue/cli-plugin-vuex/-/cli-plugin-vuex-4.4.1.tgz#98d18fc5d36fa6e0d1fc2ecaeea37aa965564f19"
   integrity sha512-FtOFsDP0qznwVaCz0BZmTzUm5vhHSJzX2/XD3L5dLTkrNxyDEbZmbKoX0n1OzBcQwZC7dkJZP2tdoCQx0mX//g==
