@@ -8,8 +8,7 @@
             <BattleCharacter
                 v-for="eachMember of eachTeam.members"
                 :key="eachMember.uuid"
-                :character="eachMember.instence"
-                :selectable="eachMember.selectable"
+                :character="eachMember"
                 @selectTarget="selectTarget"
             />
         </div>
