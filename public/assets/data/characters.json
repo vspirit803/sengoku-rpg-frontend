@@ -4,7 +4,7 @@
         "name": "风樱雪",
         "gender": "female",
         "properties": {
-            "atk": { "baseValue": 50, "increaseValue": 10 },
+            "atk": { "baseValue": 80, "increaseValue": 15 },
             "def": { "baseValue": 0, "increaseValue": 0 },
             "critRate": { "baseValue": 0.1, "increaseValue": 0 },
             "critMultiply": { "baseValue": 1.65, "increaseValue": 0 },
@@ -1720,7 +1720,7 @@
                 "increaseValue": 0
             },
             "hp": {
-                "baseValue": 1000,
+                "baseValue": 10000,
                 "increaseValue": 5
             },
             "speed": {
