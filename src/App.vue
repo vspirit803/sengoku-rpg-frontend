@@ -1,6 +1,9 @@
 <template>
-    <v-app class="app">
+    <v-app class="app" @click.native.capture.once="playAudio">
         <v-app-bar app color="primary" dark>
+            <audio ref="audio" autoplay loop>
+                <source src="/assets/audios/main.mp3" :volume="1" type="audio/mp3" />
+            </audio>
             <div class="d-flex align-center">
                 <v-img
                     alt="Vuetify Logo"
@@ -52,14 +55,13 @@
 
 <script lang="ts">
 import save001 from '@assets/saves/sav001.json';
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, Ref, ref } from '@vue/composition-api';
 import { Game, GameSave } from 'sengoku-rpg-core';
 
 import { provideGame } from '@/use';
 
 console.time('载入游戏配置');
 const game = new Game();
-// (({} as Skill)
 console.timeEnd('载入游戏配置');
 console.time('载入游戏存档');
 const localSave = localStorage.getItem('save001');
@@ -75,10 +77,18 @@ console.timeEnd('载入游戏存档');
 
 export default defineComponent({
     name: 'App',
-    setup() {
+    setup(props, context) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).game = game;
+        const audio: Ref<HTMLAudioElement | null> = ref(null);
         provideGame(game);
+        function playAudio() {
+            audio.value!.play();
+        }
+        return {
+            audio,
+            playAudio,
+        };
     },
 });
 </script>
