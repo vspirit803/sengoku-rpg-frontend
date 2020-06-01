@@ -48,6 +48,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "test" */ '@/views/Test.vue'),
         props: true,
     },
+    {
+        path: '/settings',
+        name: 'settings',
+        component: () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue'),
+    },
 ];
 
 const router = new VueRouter({

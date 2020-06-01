@@ -1,8 +1,9 @@
 <template>
-    <v-app class="app" @click.native.capture.once="playAudio">
+    <v-app class="app">
         <v-app-bar app color="primary" dark>
+            <v-switch v-model="enabled" @change="setEnabled"></v-switch>{{ enabled }}
             <audio ref="audio" autoplay loop>
-                <source src="/assets/audios/main.mp3" :volume="1" type="audio/mp3" />
+                <source src="/assets/audios/main.mp3" type="audio/mp3" />
             </audio>
             <div class="d-flex align-center">
                 <v-img
@@ -30,6 +31,7 @@
             <v-btn to="/battle-select">战斗选择</v-btn>
             <v-btn to="/backpack">物品栏</v-btn>
             <v-btn to="/teams">编队</v-btn>
+            <v-btn to="/settings">设置</v-btn>
             <v-btn icon>
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
@@ -39,7 +41,6 @@
             <v-btn icon>
                 <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
-            <!-- <v-spacer></v-spacer> -->
             <v-btn href="https://github.com/vuetifyjs/vuetify/releases/latest" target="_blank" text>
                 <span class="mr-2">Latest Release</span>
                 <v-icon>mdi-open-in-new</v-icon>
@@ -55,10 +56,10 @@
 
 <script lang="ts">
 import save001 from '@assets/saves/sav001.json';
-import { defineComponent, Ref, ref } from '@vue/composition-api';
+import { computed, defineComponent, onBeforeUnmount, onMounted, Ref, ref, watch } from '@vue/composition-api';
 import { Game, GameSave } from 'sengoku-rpg-core';
 
-import { provideGame } from '@/use';
+import { provideGame, useStore } from '@/use';
 
 console.time('载入游戏配置');
 const game = new Game();
@@ -80,14 +81,46 @@ export default defineComponent({
     setup(props, context) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).game = game;
-        const audio: Ref<HTMLAudioElement | null> = ref(null);
+        const audio: Ref<HTMLAudioElement> = ref(undefined);
         provideGame(game);
-        function playAudio() {
-            audio.value!.play();
+        const store = useStore();
+        // const enabled = computed(() => {
+        //     return store.state.settings.bgm.enabled;
+        // });
+        const enabled = ref(store.state.settings.bgm.enabled);
+        const volume = computed(() => {
+            return store.state.settings.bgm.volume;
+        });
+        onMounted(() => {
+            store.commit('setAudio', { audio: audio.value });
+        });
+        watch(enabled, (newVal) => {
+            if (!audio.value) {
+                return;
+            }
+            if (newVal) {
+                audio.value.play();
+            } else {
+                audio.value.pause();
+            }
+        });
+        watch(volume, (newVal) => {
+            if (!audio.value) {
+                return;
+            }
+            audio.value.volume = newVal;
+        });
+        onBeforeUnmount(() => {
+            store.commit('setEnabled', { enabled: false });
+        });
+        function setEnabled(enabled: boolean) {
+            store.commit('setEnabled', { enabled: enabled ? true : false });
         }
         return {
             audio,
-            playAudio,
+            enabled,
+            volume,
+            setEnabled,
         };
     },
 });
