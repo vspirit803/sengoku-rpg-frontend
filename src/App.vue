@@ -1,7 +1,6 @@
 <template>
-    <v-app class="app">
+    <v-app class="app" @click.native.capture.once="startVolume">
         <v-app-bar app color="primary" dark>
-            <v-switch v-model="enabled" @change="setEnabled"></v-switch>{{ enabled }}
             <audio ref="audio" autoplay loop>
                 <source src="/assets/audios/main.mp3" type="audio/mp3" />
             </audio>
@@ -84,43 +83,22 @@ export default defineComponent({
         const audio: Ref<HTMLAudioElement> = ref(undefined);
         provideGame(game);
         const store = useStore();
-        // const enabled = computed(() => {
-        //     return store.state.settings.bgm.enabled;
-        // });
-        const enabled = ref(store.state.settings.bgm.enabled);
-        const volume = computed(() => {
-            return store.state.settings.bgm.volume;
-        });
         onMounted(() => {
             store.commit('setAudio', { audio: audio.value });
+            store.commit('setVolume', { volume: store.state.settings.bgm.volume });
         });
-        watch(enabled, (newVal) => {
-            if (!audio.value) {
-                return;
+        // onBeforeUnmount(() => {
+        //     store.commit('setEnabled', { enabled: false });
+        // });
+        function startVolume() {
+            const { audio, enabled } = store.state.settings.bgm;
+            if (enabled) {
+                audio!.play();
             }
-            if (newVal) {
-                audio.value.play();
-            } else {
-                audio.value.pause();
-            }
-        });
-        watch(volume, (newVal) => {
-            if (!audio.value) {
-                return;
-            }
-            audio.value.volume = newVal;
-        });
-        onBeforeUnmount(() => {
-            store.commit('setEnabled', { enabled: false });
-        });
-        function setEnabled(enabled: boolean) {
-            store.commit('setEnabled', { enabled: enabled ? true : false });
         }
         return {
             audio,
-            enabled,
-            volume,
-            setEnabled,
+            startVolume,
         };
     },
 });

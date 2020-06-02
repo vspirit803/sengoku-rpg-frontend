@@ -17,8 +17,8 @@ const store = new Store<{
     state: {
         settings: {
             bgm: {
-                enabled: false,
-                volume: 0.5,
+                enabled: true,
+                volume: 50,
                 audio: undefined,
             },
         },
@@ -30,9 +30,9 @@ const store = new Store<{
         },
         setVolume(state, payload: { volume: number }) {
             state.settings.bgm.volume = payload.volume;
+            state.settings.bgm.audio!.volume = payload.volume / 100;
         },
         setAudio(state, payload: { audio: HTMLAudioElement }) {
-            console.log(payload);
             state.settings.bgm.audio = payload.audio;
         },
     },

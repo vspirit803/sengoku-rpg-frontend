@@ -1,22 +1,27 @@
 <template>
     <div class="settings">
-        <v-checkbox v-model="checkbox" :label="`Checkbox 1: ${checkbox.toString()}`"></v-checkbox>
-        背景音乐<v-switch style="display: inline-block;" v-model="enabled" @change="setEnabled" />
-        <v-slider
-            :disabled="!enabled"
-            thumb-label
-            style="width: 300px; display: inline-block;"
-            v-model="volume"
-            :min="0"
-            :max="100"
-            @change="setVolume"
-        />
+        <v-sheet :width="400" class="settings-item">
+            <v-chip>
+                背景音乐
+            </v-chip>
+            <v-checkbox style="margin: 0;" v-model="enabled" @change="setEnabled"> </v-checkbox>
+            <v-slider
+                :disabled="!enabled"
+                append-icon="mdi-volume-plus"
+                prepend-icon="mdi-volume-minus"
+                thumb-label
+                v-model="volume"
+                :min="0"
+                :max="100"
+                @change="setVolume"
+            />
+        </v-sheet>
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onBeforeUnmount, Ref, ref, watch } from '@vue/composition-api';
+import { defineComponent, onBeforeUnmount, ref, watch } from '@vue/composition-api';
 
-import { provideGame, useStore } from '@/use';
+import { useStore } from '@/use';
 
 export default defineComponent({
     name: 'Settings',
@@ -33,9 +38,6 @@ export default defineComponent({
                 audio.pause();
             }
         });
-        watch(volume, (newVal) => {
-            audio.volume = newVal / 100;
-        });
         onBeforeUnmount(() => {
             store.commit('setEnabled', { enabled: false });
         });
@@ -43,8 +45,7 @@ export default defineComponent({
             store.commit('setEnabled', { enabled: enabled ? true : false });
         }
         function setVolume(volume: number) {
-            console.log(volume);
-            store.commit('setVolume', { volume: volume / 100 });
+            store.commit('setVolume', { volume });
         }
         return {
             enabled,
@@ -55,3 +56,10 @@ export default defineComponent({
     },
 });
 </script>
+<style scoped>
+.settings-item {
+    margin-top: 32px;
+    display: flex;
+    align-items: top;
+}
+</style>
