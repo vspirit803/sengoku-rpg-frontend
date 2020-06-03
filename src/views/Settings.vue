@@ -19,7 +19,7 @@
     </div>
 </template>
 <script lang="ts">
-import { defineComponent, onBeforeUnmount, ref, watch } from '@vue/composition-api';
+import { defineComponent, ref, watch } from '@vue/composition-api';
 
 import { useStore } from '@/use';
 
@@ -37,9 +37,6 @@ export default defineComponent({
             } else {
                 audio.pause();
             }
-        });
-        onBeforeUnmount(() => {
-            store.commit('setEnabled', { enabled: false });
         });
         function setEnabled(enabled: boolean) {
             store.commit('setEnabled', { enabled: enabled ? true : false });

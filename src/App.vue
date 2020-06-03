@@ -55,10 +55,10 @@
 
 <script lang="ts">
 import save001 from '@assets/saves/sav001.json';
-import { computed, defineComponent, onBeforeUnmount, onMounted, Ref, ref, watch } from '@vue/composition-api';
+import { defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 import { Game, GameSave } from 'sengoku-rpg-core';
 
-import { provideGame, useStore } from '@/use';
+import { provideGame, provideStore, useStore } from '@/use';
 
 console.time('载入游戏配置');
 const game = new Game();
@@ -77,19 +77,17 @@ console.timeEnd('载入游戏存档');
 
 export default defineComponent({
     name: 'App',
-    setup(props, context) {
+    setup() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).game = game;
         const audio: Ref<HTMLAudioElement> = ref(undefined);
         provideGame(game);
+        provideStore();
         const store = useStore();
         onMounted(() => {
             store.commit('setAudio', { audio: audio.value });
             store.commit('setVolume', { volume: store.state.settings.bgm.volume });
         });
-        // onBeforeUnmount(() => {
-        //     store.commit('setEnabled', { enabled: false });
-        // });
         function startVolume() {
             const { audio, enabled } = store.state.settings.bgm;
             if (enabled) {
