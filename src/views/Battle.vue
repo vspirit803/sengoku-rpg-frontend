@@ -11,7 +11,7 @@
                         <BattleSuccessCondition :condition="battle.successCondition" />
                     </v-tooltip>
                 </h2>
-                <v-switch v-model="autoMode" label="自动战斗"></v-switch>
+                <v-switch v-model="autoMode" label="自动战斗" @change="setAutoMode"></v-switch>
             </div>
         </v-row>
         <div class="battle-factions">
@@ -82,6 +82,7 @@ export default defineComponent({
         let selectData: EventData.EventDataSkillSelect | undefined;
 
         function autoChoose() {
+            console.log('autoChoose');
             const availableTargets = selectableCharacters.value;
             const target = availableTargets[Math.floor(Math.random() * availableTargets.length)];
             selectData!.selectedTarget = target;
@@ -161,7 +162,7 @@ export default defineComponent({
                             setTimeout(() => {
                                 actionCharacter.value = null;
                                 resolve(true);
-                            }, 10);
+                            }, 1000);
                         });
                     },
                 }),
@@ -223,8 +224,11 @@ export default defineComponent({
             selectData = undefined;
             selectTargetResolve = undefined;
         }
+        function setAutoMode(autoMode: boolean) {
+            battle.value.autoMode = autoMode;
+        }
 
-        return { battle, showDialog, confirm, selectTarget, autoMode, successInfo };
+        return { battle, showDialog, confirm, selectTarget, autoMode, successInfo, setAutoMode };
     },
 });
 </script>
