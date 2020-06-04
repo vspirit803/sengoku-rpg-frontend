@@ -5,7 +5,7 @@
                 class="battle-character my-2 mx-2"
                 :class="{ 'grey--text': !character.isAlive, actioning: isActioning, selectable }"
                 @click="select"
-                @click.right.prevent="showDetail = true"
+                @click.right.prevent="selectFireTarget"
             >
                 <v-avatar size="80" tile>
                     <v-img :aspect-ratio="3 / 4" :src="imageUrl">
@@ -82,6 +82,14 @@ export default defineComponent({
             }
             context.emit('selectTarget', character);
         }
+
+        function selectFireTarget() {
+            if (character.isPlayerControl) {
+                return;
+            }
+            context.emit('selectFireTarget', character);
+        }
+
         return {
             game,
             hpMax,
@@ -93,6 +101,7 @@ export default defineComponent({
             selectable,
             isActioning,
             showDetail: ref(false),
+            selectFireTarget,
         };
     },
 });

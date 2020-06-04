@@ -10,6 +10,7 @@
                 :key="eachMember.uuid"
                 :character="eachMember"
                 @selectTarget="selectTarget"
+                @selectFireTarget="selectFireTarget"
             />
         </div>
     </div>
@@ -38,9 +39,13 @@ export default defineComponent({
         function selectTarget(target: CharacterBattle) {
             context.emit('selectTarget', target);
         }
+        function selectFireTarget(target: CharacterBattle) {
+            context.emit('selectFireTarget', target);
+        }
         return {
             game,
             selectTarget,
+            selectFireTarget,
         };
     },
 });

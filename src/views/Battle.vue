@@ -20,6 +20,7 @@
                 :key="each.uuid"
                 :faction="each"
                 @selectTarget="selectTarget"
+                @selectFireTarget="selectFireTarget"
             />
         </div>
         <v-dialog width="500" v-model="showDialog" attach=".battle" persistent>
@@ -43,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, provide, Ref, ref, watch } from '@vue/composition-api';
+import { defineComponent, onBeforeMount, provide, Ref, ref } from '@vue/composition-api';
 import {
     BattleBattle,
     CharacterBattle,
@@ -80,26 +81,6 @@ export default defineComponent({
 
         let selectTargetResolve: ((value: boolean) => void) | undefined;
         let selectData: EventData.EventDataSkillSelect | undefined;
-
-        function autoChoose() {
-            console.log('autoChoose');
-            const availableTargets = selectableCharacters.value;
-            const target = availableTargets[Math.floor(Math.random() * availableTargets.length)];
-            selectData!.selectedTarget = target;
-            selectableCharacters.value = [];
-            selectTargetResolve!(true);
-            selectData = undefined;
-            selectTargetResolve = undefined;
-        }
-
-        watch(autoMode, () => {
-            if (!autoMode.value) {
-                return;
-            }
-            if (selectTargetResolve) {
-                autoChoose();
-            }
-        });
 
         onBeforeMount(() => {
             const team = game.teamCenter.teams.find((each) => each.name === props.teamName)!;
@@ -144,6 +125,7 @@ export default defineComponent({
                 }),
             );
 
+            /**行动开始,设置行动角色 */
             battleInstence.eventCenter.addSubscriber(
                 SubscriberFactory.Subscriber({
                     event: TriggerTiming.ActionStart,
@@ -154,20 +136,33 @@ export default defineComponent({
                 }),
             );
 
+            /**行动结束后 等待一段时间避免看不清 */
             battleInstence.eventCenter.addSubscriber(
                 SubscriberFactory.Subscriber({
                     event: TriggerTiming.ActionEnd,
                     callback: () => {
                         return new Promise((resolve) => {
                             setTimeout(() => {
-                                actionCharacter.value = null;
+                                // actionCharacter.value = null;
                                 resolve(true);
-                            }, 1000);
+                            }, 400);
                         });
                     },
                 }),
             );
 
+            /**行动结束,清除行动角色 */
+            battleInstence.eventCenter.addSubscriber(
+                SubscriberFactory.Subscriber({
+                    event: TriggerTiming.ActionEnd,
+                    callback: () => {
+                        actionCharacter.value = null;
+                        return true;
+                    },
+                }),
+            );
+
+            /**选择技能(todo)和目标 */
             battleInstence.eventCenter.addSubscriber(
                 SubscriberFactory.Subscriber({
                     event: TriggerTiming.SkillSelect,
@@ -178,9 +173,6 @@ export default defineComponent({
                         selectData = data;
                         return new Promise((resolve) => {
                             selectTargetResolve = resolve;
-                            if (autoMode.value) {
-                                autoChoose();
-                            }
                         });
                     },
                     filter: battleInstence.factions[0].characters,
@@ -191,6 +183,7 @@ export default defineComponent({
                 SubscriberFactory.Subscriber({
                     event: TriggerTiming.ActionStart,
                     callback: (source, data) => {
+                        console.log('来到[今川义元]的回合了,回复480HP');
                         data.source.currHp += 480;
                         return true;
                     },
@@ -202,6 +195,7 @@ export default defineComponent({
                 SubscriberFactory.Subscriber({
                     event: TriggerTiming.ActionStart,
                     callback: (source, data) => {
+                        console.log('来到[风樱雪]的回合了,回复50HP');
                         data.source.currHp += 50;
                         return true;
                     },
@@ -224,11 +218,26 @@ export default defineComponent({
             selectData = undefined;
             selectTargetResolve = undefined;
         }
-        function setAutoMode(autoMode: boolean) {
-            battle.value.autoMode = autoMode;
+
+        function selectFireTarget(target: CharacterBattle) {
+            battle.value.setFireTarget(target);
         }
 
-        return { battle, showDialog, confirm, selectTarget, autoMode, successInfo, setAutoMode };
+        function setAutoMode(autoMode: boolean) {
+            console.log(`${autoMode ? '开启' : '关闭'}自动模式`);
+            battle.value.autoMode = autoMode;
+            if (autoMode && selectTargetResolve) {
+                console.log('由于现在轮到己方行动,所以进行特殊处理,直接放弃选择');
+                selectData!.selectedTarget = undefined;
+                selectData!.selectedSkill = undefined;
+                selectTargetResolve!(true);
+                selectableCharacters.value = [];
+                selectData = undefined;
+                selectTargetResolve = undefined;
+            }
+        }
+
+        return { battle, showDialog, confirm, selectTarget, autoMode, successInfo, setAutoMode, selectFireTarget };
     },
 });
 </script>
