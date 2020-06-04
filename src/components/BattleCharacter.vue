@@ -3,11 +3,16 @@
         <template v-slot:activator="{}">
             <v-card
                 class="battle-character my-2 mx-2"
-                :class="{ 'grey--text': !character.isAlive, actioning: isActioning, selectable }"
+                :class="{
+                    'grey--text': !character.isAlive,
+
+                    actioning: isActioning,
+                    selectable,
+                }"
                 @click="select"
                 @click.right.prevent="selectFireTarget"
             >
-                <v-avatar size="80" tile>
+                <v-avatar size="80" tile :class="{ 'fire-target': isFireTarget }">
                     <v-img :aspect-ratio="3 / 4" :src="imageUrl">
                         <template v-slot:placeholder>
                             <v-img :aspect-ratio="3 / 4" src="assets/images/C9999.png"></v-img>
@@ -52,9 +57,11 @@ export default defineComponent({
         const game = useGame();
         const selectableCharacters = inject<Ref<Array<CharacterBattle>>>('selectableCharacters', ref([]));
         const actionCharacter = inject<Ref<CharacterBattle | null>>('actionCharacter', ref(null));
+        const fireTarget = inject<Ref<CharacterBattle | null>>('fireTarget', ref(null));
         const { character } = props;
         const selectable = computed(() => selectableCharacters.value.includes(character));
         const isActioning = computed(() => actionCharacter.value === character);
+        const isFireTarget = computed(() => fireTarget.value === character);
 
         const hpMax = character.properties.hp.battleValue;
         const currHp = ref(hpMax);
@@ -102,6 +109,7 @@ export default defineComponent({
             isActioning,
             showDetail: ref(false),
             selectFireTarget,
+            isFireTarget,
         };
     },
 });
@@ -118,6 +126,9 @@ export default defineComponent({
     padding: 0px;
     border-width: 2px;
     border-style: solid;
+}
+.fire-target {
+    background: darkred;
 }
 .actioning {
     border-color: green;

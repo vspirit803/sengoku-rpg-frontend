@@ -72,12 +72,14 @@ export default defineComponent({
         const quickSave = useQuickSave();
         const selectableCharacters: Ref<Array<CharacterBattle>> = ref([]);
         const actionCharacter: Ref<CharacterBattle | null> = ref(null);
+        const fireTarget: Ref<CharacterBattle | null> = ref(null);
         const showDialog = ref(false);
         const battle: Ref<BattleBattle> = ref(undefined);
         const autoMode = ref(false); //自动战斗
         const successInfo = ref('');
         provide('selectableCharacters', selectableCharacters); //可被选中的角色
         provide('actionCharacter', actionCharacter); //正在行动的角色
+        provide('fireTarget', fireTarget); //集火目标
 
         let selectTargetResolve: ((value: boolean) => void) | undefined;
         let selectData: EventData.EventDataSkillSelect | undefined;
@@ -221,6 +223,10 @@ export default defineComponent({
 
         function selectFireTarget(target: CharacterBattle) {
             battle.value.setFireTarget(target);
+            fireTarget.value = target;
+            if (selectData) {
+                selectData.selectedTarget = target;
+            }
         }
 
         function setAutoMode(autoMode: boolean) {
