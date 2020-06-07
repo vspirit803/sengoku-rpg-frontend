@@ -90,9 +90,9 @@ export default defineComponent({
         });
         function startVolume() {
             const { audio, enabled } = store.state.settings.bgm;
-            if (enabled) {
-                audio!.play();
-            }
+            // if (enabled) {
+            //     audio!.play();
+            // }
         }
         return {
             audio,

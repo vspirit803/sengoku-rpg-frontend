@@ -11,6 +11,7 @@
                 :character="eachMember"
                 @selectTarget="selectTarget"
                 @selectFireTarget="selectFireTarget"
+                @selectSkill="selectSkill"
             />
         </div>
     </div>
@@ -18,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import { CharacterBattle, FactionBattle } from 'sengoku-rpg-core';
+import { CharacterBattle, FactionBattle, Skill } from 'sengoku-rpg-core';
 
 import BattleCharacter from '@/components/BattleCharacter.vue';
 import { useGame } from '@/use';
@@ -42,10 +43,14 @@ export default defineComponent({
         function selectFireTarget(target: CharacterBattle) {
             context.emit('selectFireTarget', target);
         }
+        function selectSkill(target: Skill) {
+            context.emit('selectSkill', target);
+        }
         return {
             game,
             selectTarget,
             selectFireTarget,
+            selectSkill,
         };
     },
 });
@@ -58,7 +63,7 @@ export default defineComponent({
     flex-wrap: wrap;
     justify-content: space-around;
     flex-direction: column;
-    width: 300px;
+    width: 450px;
     height: 100%;
     position: relative;
 }

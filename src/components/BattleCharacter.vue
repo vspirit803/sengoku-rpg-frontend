@@ -5,21 +5,44 @@
                 class="battle-character my-2 mx-2"
                 :class="{
                     'grey--text': !character.isAlive,
-
                     actioning: isActioning,
                     selectable,
                 }"
+                :ripple="false"
                 @click="select"
-                @click.right.prevent="selectFireTarget"
+                @click.right="selectFireTarget"
             >
-                <v-avatar size="80" tile :class="{ 'fire-target': isFireTarget }">
-                    <v-img :aspect-ratio="3 / 4" :src="imageUrl">
-                        <template v-slot:placeholder>
-                            <v-img :aspect-ratio="3 / 4" src="assets/images/C9999.png"></v-img>
-                        </template>
-                    </v-img>
-                </v-avatar>
-                <span v-text="character.name"></span>
+                <div class="d-flex">
+                    <v-avatar size="120" class="flex-grow-0" tile :class="{ 'fire-target': isFireTarget }">
+                        <v-img :aspect-ratio="3 / 4" :src="imageUrl">
+                            <template v-slot:placeholder>
+                                <v-img :aspect-ratio="3 / 4" src="assets/images/C9999.png"></v-img>
+                            </template>
+                        </v-img>
+                    </v-avatar>
+                    <div class="flex-grow-1">
+                        <span v-text="character.name"></span>
+                        <div v-if="isActioning" class="d-flex justify-space-around">
+                            <v-hover
+                                v-for="eachSkill of character.skills"
+                                :key="eachSkill.id"
+                                v-slot:default="{ hover }"
+                            >
+                                <v-img
+                                    :class="{
+                                        [`elevation-${hover ? 12 : 2}`]: true,
+                                        'selected-skill': selectedSkill === eachSkill,
+                                    }"
+                                    class="ma-1 flex-grow-0 skill"
+                                    :width="64"
+                                    @click="eachSkill.type !== 'passive' && selectSkill(eachSkill)"
+                                    :src="`assets/skills/${eachSkill.id}.png`"
+                                >
+                                </v-img>
+                            </v-hover>
+                        </div>
+                    </div>
+                </div>
                 <v-progress-linear
                     background-color="#EF9A9A"
                     class="grey"
@@ -40,8 +63,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, Ref, ref } from '@vue/composition-api';
-import { CharacterBattle, EventData, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
+import { computed, defineComponent, inject, Ref, ref, watch } from '@vue/composition-api';
+import { CharacterBattle, EventData, Skill, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
 
 import { useGame } from '@/use';
 
@@ -62,16 +85,18 @@ export default defineComponent({
         const selectable = computed(() => selectableCharacters.value.includes(character));
         const isActioning = computed(() => actionCharacter.value === character);
         const isFireTarget = computed(() => fireTarget.value === character);
+        const selectedSkill: Ref<Skill | null> = ref(character.skills[0]);
 
         const hpMax = character.properties.hp.battleValue;
         const currHp = ref(hpMax);
         const prevHp = ref(hpMax);
         const currVal = computed(() => (currHp.value / hpMax) * 100);
         const prevVal = computed(() => (prevHp.value / hpMax) * 100);
+
         character.battle!.eventCenter.addSubscriber(
             SubscriberFactory.Subscriber({
-                event: TriggerTiming.Attacked,
-                callback: (source, data: EventData.EventDataAttacked) => {
+                event: TriggerTiming.Damaged,
+                callback: (source, data: EventData.EventDataDamaged) => {
                     currHp.value = data.target.currHp;
                     setTimeout(() => {
                         prevHp.value = currHp.value;
@@ -96,6 +121,16 @@ export default defineComponent({
             }
             context.emit('selectFireTarget', character);
         }
+        function selectSkill(skill: Skill) {
+            selectedSkill.value = skill;
+            context.emit('selectSkill', skill);
+        }
+
+        watch(isActioning, (newVal) => {
+            if (newVal && selectedSkill.value) {
+                context.emit('selectSkill', selectedSkill.value);
+            }
+        });
 
         return {
             game,
@@ -110,6 +145,8 @@ export default defineComponent({
             showDetail: ref(false),
             selectFireTarget,
             isFireTarget,
+            selectSkill,
+            selectedSkill,
         };
     },
 });
@@ -123,7 +160,7 @@ export default defineComponent({
 .selectable {
     border-color: red;
     cursor: pointer;
-    padding: 0px;
+    padding: 0;
     border-width: 2px;
     border-style: solid;
 }
@@ -135,5 +172,12 @@ export default defineComponent({
     padding: 0px;
     border-width: 2px;
     border-style: solid;
+}
+
+.selected-skill {
+    border-style: dashed;
+    border-width: 2px;
+    border-color: red;
+    margin: 2px !important;
 }
 </style>

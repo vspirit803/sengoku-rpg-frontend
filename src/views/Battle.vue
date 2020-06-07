@@ -21,6 +21,7 @@
                 :faction="each"
                 @selectTarget="selectTarget"
                 @selectFireTarget="selectFireTarget"
+                @selectSkill="selectSkill"
             />
         </div>
         <v-dialog width="500" v-model="showDialog" attach=".battle" persistent>
@@ -51,6 +52,7 @@ import {
     EventData,
     ItemSystem,
     Rarity,
+    Skill,
     SubscriberFactory,
     TriggerTiming,
 } from 'sengoku-rpg-core';
@@ -169,9 +171,6 @@ export default defineComponent({
                 SubscriberFactory.Subscriber({
                     event: TriggerTiming.SkillSelect,
                     callback: (source, data: EventData.EventDataSkillSelect) => {
-                        const character = data.source;
-                        const availableTargets = character.enemies.filter((eachCharacter) => eachCharacter.isAlive);
-                        selectableCharacters.value = availableTargets;
                         selectData = data;
                         return new Promise((resolve) => {
                             selectTargetResolve = resolve;
@@ -243,7 +242,27 @@ export default defineComponent({
             }
         }
 
-        return { battle, showDialog, confirm, selectTarget, autoMode, successInfo, setAutoMode, selectFireTarget };
+        function selectSkill(skill: Skill) {
+            if (!selectData) {
+                return;
+            }
+            selectData.selectedSkill = skill;
+            const character = selectData.source;
+            const availableTargets = character.enemies.filter((eachCharacter) => eachCharacter.isAlive);
+            selectableCharacters.value = availableTargets;
+        }
+
+        return {
+            battle,
+            showDialog,
+            confirm,
+            selectTarget,
+            autoMode,
+            successInfo,
+            setAutoMode,
+            selectFireTarget,
+            selectSkill,
+        };
     },
 });
 </script>

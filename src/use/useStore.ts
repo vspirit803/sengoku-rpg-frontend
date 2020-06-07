@@ -22,7 +22,7 @@ function generateStore() {
         state: {
             settings: {
                 bgm: {
-                    enabled: true,
+                    enabled: false,
                     volume: 50,
                     audio: undefined,
                 },
@@ -32,6 +32,14 @@ function generateStore() {
         mutations: {
             setEnabled(state, payload: { enabled: boolean }) {
                 state.settings.bgm.enabled = payload.enabled;
+                if (state.settings.bgm.audio) {
+                    console.log(36);
+                    if (payload.enabled) {
+                        state.settings.bgm.audio.play();
+                    } else {
+                        state.settings.bgm.audio.pause();
+                    }
+                }
             },
             setVolume(state, payload: { volume: number }) {
                 state.settings.bgm.volume = payload.volume;
@@ -39,6 +47,9 @@ function generateStore() {
             },
             setAudio(state, payload: { audio: HTMLAudioElement }) {
                 state.settings.bgm.audio = payload.audio;
+                if (!state.settings.bgm.enabled) {
+                    payload.audio.pause();
+                }
             },
         },
         actions: {},
