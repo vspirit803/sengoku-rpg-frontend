@@ -223,9 +223,9 @@ export default defineComponent({
         function selectFireTarget(target: CharacterBattle) {
             battle.value.setFireTarget(target);
             fireTarget.value = target;
-            if (selectData) {
-                selectData.selectedTarget = target;
-            }
+            // if (selectData) {
+            //     selectData.selectedTarget = target;
+            // }
         }
 
         function setAutoMode(autoMode: boolean) {
