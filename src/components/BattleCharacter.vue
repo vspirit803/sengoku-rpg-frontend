@@ -8,6 +8,7 @@
                     actioning: isActioning,
                     selectable,
                 }"
+                ref="characterCard"
                 :ripple="false"
                 @click="select"
                 @click.right="selectFireTarget"
@@ -85,7 +86,8 @@ export default defineComponent({
         const selectable = computed(() => selectableCharacters.value.includes(character));
         const isActioning = computed(() => actionCharacter.value === character);
         const isFireTarget = computed(() => fireTarget.value === character);
-        const selectedSkill: Ref<Skill | null> = ref(character.skills[0]);
+        const selectedSkill: Ref<Skill | null> = ref(null);
+        const characterCard: Ref<{ $el: HTMLElement } | undefined> = ref(undefined);
 
         const hpMax = character.properties.hp.battleValue;
         const currHp = ref(hpMax);
@@ -98,9 +100,25 @@ export default defineComponent({
                 event: TriggerTiming.Damaged,
                 callback: (source, data: EventData.EventDataDamaged) => {
                     currHp.value = data.target.currHp;
+
+                    const newSpan = document.createElement('span');
+                    newSpan.innerText = data.damage.toString();
+                    newSpan.setAttribute('class', 'damage-span');
+                    characterCard.value!.$el.appendChild(newSpan);
+
+                    const keyframes = [{ bottom: '20px' }, { bottom: '80%' }];
+                    const options = {
+                        duration: 1000,
+                        easing: 'cubic-bezier(0,0,0.32,1)',
+                    };
+                    newSpan.animate(keyframes, options).onfinish = () => {
+                        newSpan.remove();
+                    };
+
                     setTimeout(() => {
                         prevHp.value = currHp.value;
-                    }, 300);
+                        // newSpan.remove();
+                    }, 1000);
                     return true;
                 },
                 filter: character,
@@ -121,16 +139,21 @@ export default defineComponent({
             }
             context.emit('selectFireTarget', character);
         }
+
         function selectSkill(skill: Skill) {
             selectedSkill.value = skill;
             context.emit('selectSkill', skill);
         }
 
-        watch(isActioning, (newVal) => {
-            if (newVal && selectedSkill.value) {
-                context.emit('selectSkill', selectedSkill.value);
-            }
-        });
+        watch(
+            isActioning,
+            (newVal) => {
+                if (newVal) {
+                    selectSkill(selectedSkill.value ?? character.skills[0]);
+                }
+            },
+            { immediate: true },
+        );
 
         return {
             game,
@@ -147,16 +170,27 @@ export default defineComponent({
             isFireTarget,
             selectSkill,
             selectedSkill,
+            characterCard,
         };
     },
 });
 </script>
 <style scoped>
 .battle-character {
+    position: relative;
     padding: 2px;
     cursor: default;
     user-select: none;
 }
+
+.battle-character /deep/ .damage-span {
+    position: absolute;
+    bottom: 20px;
+    color: red;
+    width: 100%;
+    text-align: center;
+}
+
 .selectable {
     border-color: red;
     cursor: pointer;

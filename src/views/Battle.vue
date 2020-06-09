@@ -76,7 +76,7 @@ export default defineComponent({
         const actionCharacter: Ref<CharacterBattle | null> = ref(null);
         const fireTarget: Ref<CharacterBattle | null> = ref(null);
         const showDialog = ref(false);
-        const battle: Ref<BattleBattle> = ref(undefined);
+        const battle: Ref<BattleBattle | undefined> = ref(undefined);
         const autoMode = ref(false); //自动战斗
         const successInfo = ref('');
         provide('selectableCharacters', selectableCharacters); //可被选中的角色
@@ -221,7 +221,7 @@ export default defineComponent({
         }
 
         function selectFireTarget(target: CharacterBattle) {
-            battle.value.setFireTarget(target);
+            battle.value!.setFireTarget(target);
             fireTarget.value = target;
             // if (selectData) {
             //     selectData.selectedTarget = target;
@@ -230,7 +230,7 @@ export default defineComponent({
 
         function setAutoMode(autoMode: boolean) {
             console.log(`${autoMode ? '开启' : '关闭'}自动模式`);
-            battle.value.autoMode = autoMode;
+            battle.value!.autoMode = autoMode;
             if (autoMode && selectTargetResolve) {
                 console.log('由于现在轮到己方行动,所以进行特殊处理,直接放弃选择');
                 selectData!.selectedTarget = undefined;

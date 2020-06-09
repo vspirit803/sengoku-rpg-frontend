@@ -80,7 +80,7 @@ export default defineComponent({
     setup() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).game = game;
-        const audio: Ref<HTMLAudioElement> = ref(undefined);
+        const audio: Ref<HTMLAudioElement | undefined> = ref(undefined);
         provideGame(game);
         provideStore();
         const store = useStore();
