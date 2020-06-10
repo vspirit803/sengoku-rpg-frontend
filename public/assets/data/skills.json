@@ -43,7 +43,7 @@
         "id": "S00005",
         "name": "幻影突袭",
         "levels": [
-            { "ratio": 0.8, "times": 2 },
+            { "ratio": 0.8, "times": 20 },
             { "ratio": 1.0, "times": 3 },
             { "ratio": 1.2, "times": 4 }
         ],

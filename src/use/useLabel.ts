@@ -1,9 +1,10 @@
 export function useLabel(el: HTMLElement) {
     let lastTime = 0;
-    function addLabel(damage: number) {
+    function addLabel(damage: number, color = 'black') {
         const newSpan = document.createElement('span');
         newSpan.innerText = damage.toString();
         newSpan.setAttribute('class', 'damage-span');
+        newSpan.style.color = color;
         el.appendChild(newSpan);
 
         const keyframes = [{ bottom: '20px' }, { bottom: '80%' }];

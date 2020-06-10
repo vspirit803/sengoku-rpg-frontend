@@ -88,7 +88,7 @@ export default defineComponent({
         const isFireTarget = computed(() => fireTarget.value === character);
         const selectedSkill: Ref<Skill | null> = ref(null);
         const characterCard: Ref<{ $el: HTMLElement } | undefined> = ref(undefined);
-        let addLabel: (damage: number) => void;
+        let addLabel: (damage: number, color?: string) => void;
 
         const hpMax = character.properties.hp.battleValue;
         const currHp = ref(hpMax);
@@ -105,7 +105,8 @@ export default defineComponent({
                 event: TriggerTiming.Damaged,
                 callback: (source, data: EventData.EventDataDamaged) => {
                     currHp.value = data.target.currHp;
-                    addLabel(data.damage);
+                    const { isCrit } = data;
+                    addLabel(data.damage, isCrit ? 'red' : undefined);
 
                     setTimeout(() => {
                         prevHp.value = currHp.value;
@@ -176,10 +177,9 @@ export default defineComponent({
 
 .battle-character /deep/ .damage-span {
     position: absolute;
-    font-size: xx-large;
+    font-size: x-large;
     font-weight: bolder;
     bottom: 20px;
-    color: red;
     width: 100%;
     text-align: center;
 }
