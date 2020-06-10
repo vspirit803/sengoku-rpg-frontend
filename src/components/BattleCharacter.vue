@@ -64,10 +64,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, Ref, ref, watch } from '@vue/composition-api';
+import { computed, defineComponent, inject, onMounted, Ref, ref, watch } from '@vue/composition-api';
 import { CharacterBattle, EventData, Skill, SubscriberFactory, TriggerTiming } from 'sengoku-rpg-core';
 
-import { useGame } from '@/use';
+import { useGame, useLabel } from '@/use';
 
 type Data = { character: CharacterBattle };
 
@@ -88,6 +88,7 @@ export default defineComponent({
         const isFireTarget = computed(() => fireTarget.value === character);
         const selectedSkill: Ref<Skill | null> = ref(null);
         const characterCard: Ref<{ $el: HTMLElement } | undefined> = ref(undefined);
+        let addLabel: (damage: number) => void;
 
         const hpMax = character.properties.hp.battleValue;
         const currHp = ref(hpMax);
@@ -95,29 +96,19 @@ export default defineComponent({
         const currVal = computed(() => (currHp.value / hpMax) * 100);
         const prevVal = computed(() => (prevHp.value / hpMax) * 100);
 
+        onMounted(() => {
+            addLabel = useLabel(characterCard.value!.$el);
+        });
+
         character.battle!.eventCenter.addSubscriber(
             SubscriberFactory.Subscriber({
                 event: TriggerTiming.Damaged,
                 callback: (source, data: EventData.EventDataDamaged) => {
                     currHp.value = data.target.currHp;
-
-                    const newSpan = document.createElement('span');
-                    newSpan.innerText = data.damage.toString();
-                    newSpan.setAttribute('class', 'damage-span');
-                    characterCard.value!.$el.appendChild(newSpan);
-
-                    const keyframes = [{ bottom: '20px' }, { bottom: '80%' }];
-                    const options = {
-                        duration: 1000,
-                        easing: 'cubic-bezier(0,0,0.32,1)',
-                    };
-                    newSpan.animate(keyframes, options).onfinish = () => {
-                        newSpan.remove();
-                    };
+                    addLabel(data.damage);
 
                     setTimeout(() => {
                         prevHp.value = currHp.value;
-                        // newSpan.remove();
                     }, 1000);
                     return true;
                 },
@@ -185,6 +176,8 @@ export default defineComponent({
 
 .battle-character /deep/ .damage-span {
     position: absolute;
+    font-size: xx-large;
+    font-weight: bolder;
     bottom: 20px;
     color: red;
     width: 100%;
