@@ -5,22 +5,31 @@ export function useLabel(el: HTMLElement) {
         newSpan.innerText = damage.toString();
         newSpan.setAttribute('class', 'damage-span');
         newSpan.style.color = color;
-        el.appendChild(newSpan);
 
-        const keyframes = [{ bottom: '20px' }, { bottom: '80%' }];
+        const keyframes = [
+            { bottom: '20px', opacity: 1 },
+            { bottom: '80%', opacity: 0.5 },
+        ];
         const options = {
-            duration: 1000,
+            duration: 800,
             easing: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
         };
-        setTimeout(
-            () => {
-                lastTime = Date.now();
-                newSpan.animate(keyframes, options).onfinish = () => {
-                    newSpan.remove();
-                };
-            },
-            Date.now() - lastTime > 50 ? 0 : 50,
-        );
+
+        function addElement() {
+            el.appendChild(newSpan);
+            newSpan.animate(keyframes, options).onfinish = () => {
+                newSpan.remove();
+            };
+        }
+
+        const now = Date.now();
+        if (now - lastTime > 80) {
+            lastTime = now;
+            addElement();
+        } else {
+            lastTime = lastTime + 80;
+            setTimeout(addElement, lastTime - now);
+        }
     }
     return addLabel;
 }
