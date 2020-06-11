@@ -79,9 +79,9 @@ export default defineComponent({
     props: { character: Object },
     setup(props: Data, context) {
         const game = useGame();
-        const selectableCharacters = inject<Ref<Array<CharacterBattle>>>('selectableCharacters', ref([]));
-        const actionCharacter = inject<Ref<CharacterBattle | null>>('actionCharacter', ref(null));
-        const fireTarget = inject<Ref<CharacterBattle | null>>('fireTarget', ref(null));
+        const selectableCharacters = inject<Ref<Array<CharacterBattle>>>('selectableCharacters')!;
+        const actionCharacter = inject<Ref<CharacterBattle | null>>('actionCharacter')!;
+        const fireTarget = inject<Ref<CharacterBattle | null>>('fireTarget')!;
         const { character } = props;
         const selectable = computed(() => selectableCharacters.value.includes(character));
         const isActioning = computed(() => actionCharacter.value === character);
