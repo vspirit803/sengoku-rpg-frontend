@@ -26,7 +26,7 @@
     {
         "id": "S00003",
         "name": "地狱之手",
-        "levels": [{ "ratio": 1 }],
+        "levels": [{ "ratio": 3 }],
         "description": "就让你见识我真正的力量，降临吧，地狱之手！",
         "cost": 3,
         "type": "skill_attack"
@@ -43,7 +43,7 @@
         "id": "S00005",
         "name": "幻影突袭",
         "levels": [
-            { "ratio": 0.8, "times": 20 },
+            { "ratio": 0.8, "times": 4 },
             { "ratio": 1.0, "times": 3 },
             { "ratio": 1.2, "times": 4 }
         ],
