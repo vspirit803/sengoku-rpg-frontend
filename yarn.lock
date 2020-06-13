@@ -1273,32 +1273,32 @@
     thread-loader "^2.1.3"
     webpack "^4.0.0"
 
-"@vue/cli-plugin-eslint@~4.4.3":
-  version "4.4.3"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-eslint/-/cli-plugin-eslint-4.4.3.tgz#c629bad585086068fd3b6c914e378989cc075329"
-  integrity sha512-8WB1dx2Ih2zOIjrFMe8NkD/geyYHkyi2die2EcW3MdAfCeK6RUgDF6yIO6lCM3lpAzrk1O0y0OSHc2lrMxr9iA==
+"@vue/cli-plugin-eslint@~4.4.4":
+  version "4.4.4"
+  resolved "https://registry.npm.taobao.org/@vue/cli-plugin-eslint/download/@vue/cli-plugin-eslint-4.4.4.tgz#19fd1da1863a90584b78939cce1ce94c49ed4388"
+  integrity sha1-Gf0doYY6kFhLeJOczhzpTEntQ4g=
   dependencies:
-    "@vue/cli-shared-utils" "^4.4.3"
+    "@vue/cli-shared-utils" "^4.4.4"
     eslint-loader "^2.2.1"
     globby "^9.2.0"
     inquirer "^7.1.0"
     webpack "^4.0.0"
     yorkie "^2.0.0"
 
-"@vue/cli-plugin-router@^4.4.4":
+"@vue/cli-plugin-router@^4.4.4", "@vue/cli-plugin-router@~4.4.4":
   version "4.4.4"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-router/-/cli-plugin-router-4.4.4.tgz#59e11dd55df854618616ad4f013b20c52e4a3a68"
-  integrity sha512-jZTupo+zFz1YHH3Q4WC5nJW5wlNEDqX//m+atwUISPahVEG6/EV8HwJnQDT7EQ9re4v78xI27eOtyNw+qSyiSA==
+  resolved "https://registry.npm.taobao.org/@vue/cli-plugin-router/download/@vue/cli-plugin-router-4.4.4.tgz?cache=0&sync_timestamp=1591967128209&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40vue%2Fcli-plugin-router%2Fdownload%2F%40vue%2Fcli-plugin-router-4.4.4.tgz#59e11dd55df854618616ad4f013b20c52e4a3a68"
+  integrity sha1-WeEd1V34VGGGFq1PATsgxS5KOmg=
   dependencies:
     "@vue/cli-shared-utils" "^4.4.4"
 
-"@vue/cli-plugin-typescript@~4.4.3":
-  version "4.4.3"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-typescript/-/cli-plugin-typescript-4.4.3.tgz#2ca197626891d5350abaccd4909bcbc68c686446"
-  integrity sha512-9XsOWkkyuoZxl1/Ajtv6zsrjbl3v9sFuekzmQkVtoe57bejBz9fKTt68780lzZRcLJ5NRCLQckAHfMulxWMB5g==
+"@vue/cli-plugin-typescript@~4.4.4":
+  version "4.4.4"
+  resolved "https://registry.npm.taobao.org/@vue/cli-plugin-typescript/download/@vue/cli-plugin-typescript-4.4.4.tgz#bac7a4d33bc40df48ef1e49310183de029976e64"
+  integrity sha1-usek0zvEDfSO8eSTEBg94CmXbmQ=
   dependencies:
     "@types/webpack-env" "^1.15.2"
-    "@vue/cli-shared-utils" "^4.4.3"
+    "@vue/cli-shared-utils" "^4.4.4"
     cache-loader "^4.1.0"
     fork-ts-checker-webpack-plugin "^3.1.1"
     globby "^9.2.0"
@@ -1371,7 +1371,7 @@
     webpack-dev-server "^3.11.0"
     webpack-merge "^4.2.2"
 
-"@vue/cli-shared-utils@^4.4.1", "@vue/cli-shared-utils@^4.4.3", "@vue/cli-shared-utils@^4.4.4":
+"@vue/cli-shared-utils@^4.4.4":
   version "4.4.4"
   resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-4.4.4.tgz#b9685b73a604c8a7ee82d6fc3319fe7bb2cdb274"
   integrity sha512-ccMZtTMSutR35V5nrU/eyj+zRMomTRGBTLwJPmaJ2sRiW/93MTggQGXDWC8JRAA8yiU1N8xza8mjBxS0O2wIAA==
