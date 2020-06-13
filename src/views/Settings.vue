@@ -29,15 +29,7 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const enabled = ref(store.state.settings.bgm.enabled);
-        const audio = store.state.settings.bgm.audio!;
         const volume = ref(store.state.settings.bgm.volume);
-        // watch(enabled, (newVal) => {
-        //     if (newVal) {
-        //         audio.play();
-        //     } else {
-        //         audio.pause();
-        //     }
-        // });
         function setEnabled(enabled: boolean) {
             store.commit('setEnabled', { enabled: enabled ? true : false });
         }

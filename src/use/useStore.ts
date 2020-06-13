@@ -33,7 +33,6 @@ function generateStore() {
             setEnabled(state, payload: { enabled: boolean }) {
                 state.settings.bgm.enabled = payload.enabled;
                 if (state.settings.bgm.audio) {
-                    console.log(36);
                     if (payload.enabled) {
                         state.settings.bgm.audio.play();
                     } else {
