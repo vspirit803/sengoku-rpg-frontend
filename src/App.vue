@@ -45,11 +45,11 @@
                 <v-icon>mdi-open-in-new</v-icon>
             </v-btn>
         </v-app-bar>
-        <v-content>
+        <v-main>
             <v-responsive class="content" :aspect-ratio="16 / 9">
                 <keep-alive exclude="Battle"> <router-view></router-view></keep-alive>
             </v-responsive>
-        </v-content>
+        </v-main>
     </v-app>
 </template>
 
