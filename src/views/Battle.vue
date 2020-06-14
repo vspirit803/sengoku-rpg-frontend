@@ -49,6 +49,7 @@ import { defineComponent, onBeforeMount, provide, Ref, ref } from '@vue/composit
 import {
   BattleBattle,
   CharacterBattle,
+  Event,
   EventData,
   ItemSystem,
   Rarity,
@@ -199,6 +200,39 @@ export default defineComponent({
             return true;
           },
           filter: battleInstence.characters.find(({ name }) => name === '风樱雪'),
+        }),
+      );
+
+      battleInstence.eventCenter.addSubscriber(
+        SubscriberFactory.Subscriber({
+          event: TriggerTiming.AfterDamaging,
+          callback: async (_, data) => {
+            if (data.overflowDamage) {
+              const nobu = data.source;
+              const enemies = nobu.enemies;
+              for await (const each of enemies) {
+                battleInstence.eventCenter.trigger(
+                  new Event({
+                    type: TriggerTiming.Damaging,
+                    source: nobu,
+                    data: { source: nobu, target: each, damage: data.overflowDamage, isCrit: false },
+                  }),
+                );
+              }
+            }
+            return true;
+          },
+          filter: battleInstence.characters.find(({ name }) => name === '织田信长'),
+        }),
+      );
+
+      battleInstence.eventCenter.addSubscriber(
+        SubscriberFactory.Subscriber({
+          event: TriggerTiming.Attacked,
+          callback: (source, data) => {
+            console.log(`${data.target.name}受到了攻击`);
+            return true;
+          },
         }),
       );
 
