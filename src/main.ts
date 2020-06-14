@@ -9,7 +9,7 @@ Vue.config.productionTip = false;
 Vue.use(VueCompositionApi);
 
 new Vue({
-    router,
-    vuetify,
-    render: (h) => h(App),
+  router,
+  vuetify,
+  render: (h) => h(App),
 }).$mount('#app');

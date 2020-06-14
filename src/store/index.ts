@@ -4,16 +4,16 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    state: {
-        settings: {
-            bgm: {
-                muted: false,
-                volume: 0.5,
-            },
-        },
+  state: {
+    settings: {
+      bgm: {
+        muted: false,
+        volume: 0.5,
+      },
     },
-    getters: {},
-    mutations: {},
-    actions: {},
-    modules: {},
+  },
+  getters: {},
+  mutations: {},
+  actions: {},
+  modules: {},
 });

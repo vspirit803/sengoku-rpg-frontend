@@ -6,5 +6,5 @@ import { useGame } from './useGame';
  * 队伍
  */
 export function useTeams(): Array<TeamNormal> {
-    return useGame().teamCenter.teams;
+  return useGame().teamCenter.teams;
 }
