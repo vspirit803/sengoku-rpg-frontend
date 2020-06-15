@@ -110,7 +110,7 @@ export default defineComponent({
           return true;
         },
         filter: character,
-        priority: 1,
+        priority: 0,
       }),
     );
 

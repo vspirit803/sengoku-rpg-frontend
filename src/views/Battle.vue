@@ -205,23 +205,33 @@ export default defineComponent({
 
       battleInstence.eventCenter.addSubscriber(
         SubscriberFactory.Subscriber({
-          event: TriggerTiming.AfterDamaging,
+          event: TriggerTiming.Damaging,
           callback: async (_, data) => {
-            if (data.overflowDamage) {
+            if (
+              data.overflowDamage &&
+              (data as EventData.EventDataDamaging & { skillSource: string }).skillSource !== 'S00003'
+            ) {
               const nobu = data.source;
-              const enemies = nobu.enemies;
+              const enemies = nobu.enemies.filter((each) => each.isAlive);
               for await (const each of enemies) {
                 battleInstence.eventCenter.trigger(
                   new Event({
                     type: TriggerTiming.Damaging,
                     source: nobu,
-                    data: { source: nobu, target: each, damage: data.overflowDamage, isCrit: false },
+                    data: {
+                      source: nobu,
+                      target: each,
+                      damage: data.overflowDamage,
+                      isCrit: false,
+                      skillSource: 'S00003',
+                    },
                   }),
                 );
               }
             }
             return true;
           },
+          priority: 1,
           filter: battleInstence.characters.find(({ name }) => name === '织田信长'),
         }),
       );
