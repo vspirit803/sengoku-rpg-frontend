@@ -102,7 +102,24 @@ export default defineComponent({
         callback: (source, data: EventData.EventDataDamaged) => {
           currHp.value = data.target.currHp;
           const { isCrit } = data;
-          addLabel(data.damage, isCrit ? 'red' : undefined);
+          addLabel(data.finalDamage!, isCrit ? 'red' : undefined);
+
+          setTimeout(() => {
+            prevHp.value = currHp.value;
+          }, 1000);
+          return true;
+        },
+        filter: character,
+        priority: 0,
+      }),
+    );
+
+    character.battle!.eventCenter.addSubscriber(
+      SubscriberFactory.Subscriber({
+        event: TriggerTiming.Treated,
+        callback: (source, data: EventData.EventDataTreated) => {
+          currHp.value = data.target.currHp;
+          addLabel(data.finalDamage!, 'green');
 
           setTimeout(() => {
             prevHp.value = currHp.value;

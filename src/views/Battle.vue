@@ -50,6 +50,7 @@ import {
   BattleBattle,
   CharacterBattle,
   Event,
+  eventCenter,
   EventData,
   ItemSystem,
   Rarity,
@@ -148,7 +149,7 @@ export default defineComponent({
               setTimeout(() => {
                 // actionCharacter.value = null;
                 resolve(true);
-              }, 400);
+              }, 100);
             });
           },
         }),
@@ -184,7 +185,18 @@ export default defineComponent({
           event: TriggerTiming.ActionStart,
           callback: (source, data) => {
             console.log('来到[今川义元]的回合了,回复480HP');
-            data.source.currHp += 480;
+            const JCYY = data.source;
+            battleInstence.eventCenter.trigger(
+              new Event({
+                type: TriggerTiming.Treated,
+                source: JCYY,
+                data: {
+                  source: JCYY,
+                  target: JCYY,
+                  damage: 480,
+                },
+              }),
+            );
             return true;
           },
           filter: battleInstence.characters.find(({ name }) => name === '今川义元'),
@@ -196,7 +208,18 @@ export default defineComponent({
           event: TriggerTiming.ActionStart,
           callback: (source, data) => {
             console.log('来到[风樱雪]的回合了,回复50HP');
-            data.source.currHp += 50;
+            const FYX = data.source;
+            battleInstence.eventCenter.trigger(
+              new Event({
+                type: TriggerTiming.Treated,
+                source: FYX,
+                data: {
+                  source: FYX,
+                  target: FYX,
+                  damage: 50,
+                },
+              }),
+            );
             return true;
           },
           filter: battleInstence.characters.find(({ name }) => name === '风樱雪'),
@@ -207,10 +230,7 @@ export default defineComponent({
         SubscriberFactory.Subscriber({
           event: TriggerTiming.Damaging,
           callback: async (_, data) => {
-            if (
-              data.overflowDamage &&
-              (data as EventData.EventDataDamaging & { skillSource: string }).skillSource !== 'S00003'
-            ) {
+            if (data.overflowDamage && data.skillSource !== 'S00003') {
               const nobu = data.source;
               const enemies = nobu.enemies.filter((each) => each.isAlive);
               for await (const each of enemies) {
