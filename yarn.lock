@@ -1606,10 +1606,10 @@
   optionalDependencies:
     fork-ts-checker-webpack-plugin-v5 "npm:fork-ts-checker-webpack-plugin@^5.0.11"
 
-"@vue/cli-plugin-vuex@^4.5.4", "@vue/cli-plugin-vuex@~4.5.4":
-  version "4.5.4"
-  resolved "https://registry.npm.taobao.org/@vue/cli-plugin-vuex/download/@vue/cli-plugin-vuex-4.5.4.tgz#6296e307388f61132117e0ac03188013652b0c55"
-  integrity sha1-YpbjBziPYRMhF+CsAxiAE2UrDFU=
+"@vue/cli-plugin-vuex@^4.5.4", "@vue/cli-plugin-vuex@~4.5.6":
+  version "4.5.6"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-vuex/-/cli-plugin-vuex-4.5.6.tgz#484687d85369b0dca065c4491bf18efff5e31ecf"
+  integrity sha512-cWxj0jIhhupU+oFl0mc1St3ig9iF5F01XKwAhKEbvvuHR97zHxLd29My/vvcRwojZMy4aY320oJ+0ljoCIbueQ==
 
 "@vue/cli-service@~4.5.4":
   version "4.5.4"
