@@ -3,12 +3,8 @@
     <template v-for="index of 5">
       <div v-if="index <= members.length" :key="members[index - 1].uuid" class="team-character">
         <v-img :aspect-ratio="3 / 4" :src="getImage(members[index - 1].id)" lazy-src="assets/images/C9999.png">
-          <v-btn @click="(selectedCharacterId = members[index - 1].id), (showAddMemberDialog = true)">
-            替换
-          </v-btn>
-          <v-btn @click="removeMember(members[index - 1])">
-            离队
-          </v-btn>
+          <v-btn @click="(selectedCharacterId = members[index - 1].id), (showAddMemberDialog = true)"> 替换 </v-btn>
+          <v-btn @click="removeMember(members[index - 1])"> 离队 </v-btn>
           <h1 class="character-name">{{ members[index - 1].name }}</h1>
         </v-img>
       </div>
@@ -66,7 +62,7 @@ export default defineComponent({
     const quickSave = useQuickSave();
     const team = props.team;
     const characterCenter = useCharacterCenter();
-    type TeamCharacter = { uuid: symbol; id: string; name: string };
+    type TeamCharacter = { uuid: string; id: string; name: string };
     const members: Ref<Array<TeamCharacter>> = ref(
       team.members.map((each) => {
         return {
